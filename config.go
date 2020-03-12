@@ -91,7 +91,76 @@ type Network struct {
 }
 
 type Query struct {
+	// Default: 0
+	//
+	//The log message verbosity level for components related to query operations. See QUERY components.
+	//
+	//The verbosity level can range from 0 to 5:
+	//
+	//0 is the MongoDB’s default log verbosity level, to include Informational messages.
+	//1 to 5 increases the verbosity level to include Debug messages.
+	Verbosity Verbosity
+}
+
+type Replication struct {
+	//Default: 0
+	//
+	//The log message verbosity level for components related to replication. See REPL components.
+	//
+	//The verbosity level can range from 0 to 5:
+	//
+	//0 is the MongoDB’s default log verbosity level, to include Informational messages.
+	//1 to 5 increases the verbosity level to include Debug messages.
+	Verbosity int
 	
+	//Default: 0
+	//
+	//New in version 4.2.
+	//
+	//The log message verbosity level for components related to election. See ELECTION components.
+	//
+	//If systemLog.component.replication.election.verbosity is unset, systemLog.component.replication.verbosity level also applies to election components.
+	//
+	//The verbosity level can range from 0 to 5:
+	//
+	//0 is the MongoDB’s default log verbosity level, to include Informational messages.
+	//1 to 5 increases the verbosity level to include Debug messages.
+	Election int
+	
+	Heartbeats Heartbeats
+	InitialSync InitialSync
+}
+
+type Heartbeats struct {
+	//Default: 0
+	//
+	//New in version 3.6.
+	//
+	//The log message verbosity level for components related to heartbeats. See REPL_HB components.
+	//
+	//If systemLog.component.replication.heartbeats.verbosity is unset, systemLog.component.replication.verbosity level also applies to heartbeats components.
+	//
+	//The verbosity level can range from 0 to 5:
+	//
+	//0 is the MongoDB’s default log verbosity level, to include Informational messages.
+	//1 to 5 increases the verbosity level to include Debug messages.
+	Verbosity int
+}
+
+type InitialSync struct {
+	//Default: 0
+	//
+	//New in version 4.2.
+	//
+	//The log message verbosity level for components related to initialSync. See INITSYNC components.
+	//
+	//If systemLog.component.replication.initialSync.verbosity is unset, systemLog.component.replication.verbosity level also applies to initialSync components.
+	//
+	//The verbosity level can range from 0 to 5:
+	//
+	//0 is the MongoDB’s default log verbosity level, to include Informational messages.
+	//1 to 5 increases the verbosity level to include Debug messages.
+	Verbosity int
 }
 
 type Component struct {
@@ -102,7 +171,8 @@ type Component struct {
 	Geo Geo
 	Index Index
 	Network Network
-	
+	Query Query
+	Replication Replication
 }
 
 type Configuration struct {
