@@ -9,7 +9,7 @@ type Security struct {
 	//multiple key strings (each string must be enclosed in quotes), or
 	//sequence of key strings.
 	//The YAML format is compatible with the existing single-key keyfiles that use the text file format.
-	KeyFile string `yaml:"-"`
+	KeyFile string `yaml:"keyFile"`
 
 	//Default: keyFile
 	//
@@ -25,7 +25,7 @@ type Security struct {
 	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterAuthMode string `yaml:"-"`
+	ClusterAuthMode string `yaml:"clusterAuthMode"`
 
 	//Default: disabled
 	//
@@ -39,7 +39,7 @@ type Security struct {
 	//See Role-Based Access Control for more information.
 	//
 	//The security.authorization setting is available only for mongod.
-	Authorization string `yaml:"-"`
+	Authorization string `yaml:"authorization"`
 
 	//Default: false
 	//
@@ -52,12 +52,12 @@ type Security struct {
 	//NOTE
 	//
 	//A mongod or mongos running with internal authentication and without security.transitionToAuth requires clients to connect using user access controls. Update clients to connect to the mongod or mongos using the appropriate user prior to restarting mongod or mongos without security.transitionToAuth.
-	TransitionToAuth LogicBoolean `yaml:"-"`
+	TransitionToAuth LogicBoolean `yaml:"transitionToAuth"`
 
 	//Default: true
 	//
 	//Enables or disables the server-side JavaScript execution. When disabled, you cannot use operations that perform server-side execution of JavaScript code, such as the $where query operator, mapReduce command and the db.collection.mapReduce() method.
-	JavascriptEnabled LogicBoolean `yaml:"-"`
+	JavascriptEnabled LogicBoolean `yaml:"javascriptEnabled"`
 
 	//New in version 3.4: Available in MongoDB Enterprise only.
 	//
@@ -70,7 +70,7 @@ type Security struct {
 	//Diagnostics on a mongod or mongos running with security.redactClientLogData may be more difficult due to the lack of data related to a log event. See the process logging manual page for an example of the effect of security.redactClientLogData on log output.
 	//
 	//On a running mongod or mongos, use setParameter with the redactClientLogData parameter to configure this setting.
-	RedactClientLogData LogicBoolean `yaml:"-"`
+	RedactClientLogData LogicBoolean `yaml:"redactClientLogData"`
 
 	//New in version 3.6.
 	//
@@ -102,7 +102,9 @@ type Security struct {
 	//      clientCertificatePassword: <string>
 	//      clientCertificateSelector: <string>
 	//      serverCAFile: <string>
-	ClusterIpSourceWhitelist []string `yaml:"-"`
+	ClusterIpSourceWhitelist []string `yaml:"clusterIpSourceWhitelist"`
+
+	Sasl Sasl `yaml:"sasl"`
 
 	//Default: false
 	//
@@ -111,7 +113,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EnableEncryption LogicBoolean `yaml:"-"`
+	EnableEncryption LogicBoolean `yaml:"enableEncryption"`
 
 	//Default: AES256-CBC
 	//
@@ -131,7 +133,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EncryptionCipherMode string `yaml:"-"`
+	EncryptionCipherMode string `yaml:"encryptionCipherMode"`
 
 	//New in version 3.2.
 	//
@@ -142,8 +144,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EncryptionKeyFile string `yaml:"-"`
-	Kmip              Kmip   `yaml:"-"`
-	Sasl              Sasl   `yaml:"-"`
-	Ldap              Ldap   `yaml:"-"`
+	EncryptionKeyFile string `yaml:"encryptionKeyFile"`
+	Kmip              Kmip   `yaml:"kmip"`
+	Ldap              Ldap   `yaml:"ldap"`
 }

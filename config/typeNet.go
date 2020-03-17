@@ -7,7 +7,7 @@ type Net struct {
 	//27018 if mongod is a shard member
 	//27019 if mongod is a config server member
 	//The TCP port on which the MongoDB instance listens for client connections.
-	Port NetPort `yaml:"-"`
+	Port NetPort `yaml:"port"`
 
 	//Default: localhost
 	//
@@ -39,7 +39,7 @@ type Net struct {
 	//
 	//NOTE: net.bindIp and net.bindIpAll are mutually exclusive. That is, you can specify one or the other, but not both.
 	//		The command-line option --bind_ip overrides the configuration file setting net.bindIp.
-	BindIp []string `yaml:"-"`
+	BindIp []string `yaml:"bindIp"`
 
 	//Default: false
 	//
@@ -56,7 +56,7 @@ type Net struct {
 	//Alternatively, set net.bindIp to ::,0.0.0.0 or, starting in MongoDB 4.2, to an asterisk "*" (enclose the asterisk in quotes to distinguish from YAML alias nodes) to bind to all IP addresses.
 	//
 	//NOTE: net.bindIp and net.bindIpAll are mutually exclusive. Specifying both options causes mongos or mongod to throw an error and terminate.
-	BindIpAll LogicBoolean `yaml:"-"`
+	BindIpAll LogicBoolean `yaml:"bindIpAll"`
 
 	//Default: 65536
 	//
@@ -69,14 +69,14 @@ type Net struct {
 	//In this case, set maxIncomingConnections to a value slightly higher than the maximum number of connections that the client creates, or the maximum size of the connection pool.
 	//
 	//This setting prevents the mongos from causing connection spikes on the individual shards. Spikes like these may disrupt the operation and memory allocation of the sharded cluster.
-	MaxIncomingConnections int `yaml:"-"`
+	MaxIncomingConnections int `yaml:"maxIncomingConnections"`
 
 	//Default: true
 	//
 	//When true, the mongod or mongos instance validates all requests from clients upon receipt to prevent clients from inserting malformed or invalid BSON into a MongoDB database.
 	//
 	//For objects with a high degree of sub-document nesting, net.wireObjectCheck can have a small impact on performance.
-	WireObjectCheck LogicBoolean `yaml:"-"`
+	WireObjectCheck LogicBoolean `yaml:"wireObjectCheck"`
 
 	//Default: false
 	//
@@ -86,10 +86,11 @@ type Net struct {
 	//
 	//Configure net.bindIp with one or more IPv6 addresses or hostnames that resolve to IPv6 addresses, or
 	//Set net.bindIpAll to true.
-	Ipv6 LogicBoolean `yaml:"-"`
+	Ipv6 LogicBoolean `yaml:"ipv6"`
 
-	UnixDomainSocket UnixDomainSocket `yaml:"-"`
-	Compression      Compression      `yaml:"-"`
+	UnixDomainSocket UnixDomainSocket `yaml:"unixDomainSocket"`
+	Tls              Tls              `yaml:"tls"`
+	Compression      Compression      `yaml:"compression"`
 
 	//Default: synchronous
 	//
@@ -100,5 +101,5 @@ type Net struct {
 	//Value	Description
 	//synchronous	The mongos or mongod uses synchronous networking and manages its networking thread pool on a per connection basis. Previous versions of MongoDB managed threads in this way.
 	//adaptive	The mongos or mongod uses the new experimental asynchronous networking mode with an adaptive thread pool which manages threads on a per request basis. This mode should have more consistent performance and use less resources when there are more inactive connections than database requests.
-	ServiceExecutor string `yaml:"-"`
+	ServiceExecutor string `yaml:"serviceExecutor"`
 }

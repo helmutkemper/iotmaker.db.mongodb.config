@@ -32,7 +32,7 @@ type WiredTigerEngineConfig struct {
 	//The default WiredTiger internal cache size value assumes that there is a single mongod instance per machine. If a single machine contains multiple MongoDB instances, then you should decrease the setting to accommodate the other mongod instances.
 	//
 	//If you run mongod in a container (e.g. lxc, cgroups, Docker, etc.) that does not have access to all of the RAM available in a system, you must set storage.wiredTiger.engineConfig.cacheSizeGB to a value less than the amount of RAM available in the container. The exact amount depends on the other processes running in the container. See memLimitMB.
-	CacheSizeGB float64 `yaml:"-"`
+	CacheSizeGB float64 `yaml:"cacheSizeGB"`
 
 	//Default: snappy
 	//
@@ -47,14 +47,14 @@ type WiredTigerEngineConfig struct {
 	//			http://www.zlib.net/
 	//zstd 		(Available starting in MongoDB 4.2) A data compression library that provides higher compression rates and lower CPU usage when compared to zlib.
 	//			http://www.zlib.net/
-	JournalCompressor string `yaml:"-"`
+	JournalCompressor string `yaml:"journalCompressor"`
 
 	//Default: false
 	//
 	//When storage.wiredTiger.engineConfig.directoryForIndexes is true, mongod stores indexes and collections in separate subdirectories under the data (i.e. storage.dbPath) directory. Specifically, mongod stores the indexes in a subdirectory named index and the collection data in a subdirectory named collection.
 	//
 	//By using a symbolic link, you can specify a different location for the indexes. Specifically, when mongod instance is not running, move the index subdirectory to the destination and create a symbolic link named index under the data directory to the new destination.
-	DirectoryForIndexes LogicBoolean `yaml:"-"`
+	DirectoryForIndexes LogicBoolean `yaml:"directoryForIndexes"`
 
 	//Specifies the maximum size (in GB) for the “lookaside (or cache overflow) table” file WiredTigerLAS.wt.
 	//
@@ -66,18 +66,5 @@ type WiredTigerEngineConfig struct {
 	//To change the maximum size during runtime, use the wiredTigerMaxCacheOverflowSizeGB parameter.
 	//
 	//Available starting in MongoDB 4.2.1 (and 4.0.12)
-	MaxCacheOverflowFileSizeGB float64 `yaml:"-"`
-
-	//Default: snappy
-	//
-	//Specifies the default compression for collection data. You can override this on a per-collection basis when creating collections.
-	//
-	//Available compressors are:
-	//
-	//none
-	//snappy
-	//zlib
-	//zstd (Available starting MongoDB 4.2)
-	//storage.wiredTiger.collectionConfig.blockCompressor affects all collections created. If you change the value of storage.wiredTiger.collectionConfig.blockCompressor on an existing MongoDB deployment, all new collections will use the specified compressor. Existing collections will continue to use the compressor specified when they were created, or the default compressor at that time.
-	BlockCompressor string `yaml:"-"`
+	MaxCacheOverflowFileSizeGB float64 `yaml:"maxCacheOverflowFileSizeGB"`
 }

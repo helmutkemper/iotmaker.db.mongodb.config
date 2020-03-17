@@ -13,7 +13,7 @@ type AuditLog struct {
 	//file		Output the audit events to the file specified in auditLog.path in the format specified in auditLog.format.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Destination string `yaml:"-"`
+	Destination string `yaml:"destination"`
 
 	//The format of the output file for auditing if destination is file. The auditLog.format option can have one of the following values:
 	//
@@ -23,12 +23,12 @@ type AuditLog struct {
 	//Printing audit events to a file in JSON format degrades server performance more than printing to a file in BSON format.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Format string `yaml:"-"`
+	Format string `yaml:"format"`
 
 	//The output file for auditing if destination has value of file. The auditLog.path option can take either a full path name or a relative path name.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Path string `yaml:"-"`
+	Path string `yaml:"path"`
 
 	//Type: string representation of a document
 	//
@@ -42,5 +42,5 @@ type AuditLog struct {
 	//To specify the audit filter in a configuration file, you must use the YAML format of the configuration file.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Filter string `yaml:"-"`
+	Filter string `yaml:"filter"`
 }

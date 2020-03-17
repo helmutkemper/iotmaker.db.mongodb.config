@@ -17,7 +17,7 @@ type Bind struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//NOTE: Windows MongoDB deployments can use bindWithOSDefaults instead of queryUser and queryPassword. You cannot specify both queryUser and bindWithOSDefaults at the same time.
-	QueryUser string `yaml:"-"`
+	QueryUser string `yaml:"queryUser"`
 
 	//New in version 3.4: Available in MongoDB Enterprise only.
 	//
@@ -28,7 +28,7 @@ type Bind struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//NOTE: Windows MongoDB deployments can use bindWithOSDefaults instead of queryPassword and queryPassword. You cannot specify both queryPassword and bindWithOSDefaults at the same time.
-	QueryPassword string `yaml:"-"`
+	QueryPassword string `yaml:"queryPassword"`
 
 	//Default: false
 	//
@@ -42,7 +42,7 @@ type Bind struct {
 	//Using an LDAP query for username transformation.
 	//The LDAP server disallows anonymous binds
 	//Use useOSDefaults to replace queryUser and queryPassword.
-	UseOSDefaults LogicBoolean `yaml:"-"`
+	UseOSDefaults LogicBoolean `yaml:"useOSDefaults"`
 
 	//Default: simple
 	//
@@ -55,7 +55,7 @@ type Bind struct {
 	//simple - mongod or mongos uses simple authentication.
 	//sasl - mongod or mongos uses SASL protocol for authentication
 	//If you specify sasl, you can configure the available SASL mechanisms using security.ldap.bind.saslMechanisms. mongod or mongos defaults to using DIGEST-MD5 mechanism.
-	Method string `yaml:"-"`
+	Method string `yaml:"method"`
 
 	//Default: DIGEST-MD5
 	//
@@ -84,5 +84,5 @@ type Bind struct {
 	//
 	//For Linux, please see the Cyrus SASL documentation.
 	//For Windows, please see the Windows SASL documentation.
-	SaslMechanisms string `yaml:"-"`
+	SaslMechanisms string `yaml:"saslMechanisms"`
 }

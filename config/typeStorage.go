@@ -18,7 +18,7 @@ type Storage struct {
 	//Ubuntu and Debian				apt						/var/lib/mongodb
 	//macOS							brew					/usr/local/var/mongodb
 	//The Linux package init scripts do not expect storage.dbPath to change from the defaults. If you use the Linux packages and change storage.dbPath, you will have to use your own init scripts and disable the built-in scripts.
-	DbPath string `yaml:"-"`
+	DbPath string `yaml:"dbPath"`
 
 	//Default: true
 	//
@@ -29,9 +29,9 @@ type Storage struct {
 	//The storage.indexBuildRetry setting is available only for mongod.
 	//
 	//Not available for mongod instances that use the in-memory storage engine.
-	IndexBuildRetry LogicBoolean `yaml:"-"`
+	IndexBuildRetry LogicBoolean `yaml:"indexBuildRetry"`
 
-	Journal Journal `yaml:"-"`
+	Journal Journal `yaml:"journal"`
 
 	//Default: false
 	//
@@ -57,7 +57,7 @@ type Storage struct {
 	//5.Update remaining secondaries in the same fashion.
 	//6.Step down the primary, and update the stepped-down member in the same fashion.
 	//todo: make true
-	DirectoryPerDB LogicBoolean `yaml:"-"`
+	DirectoryPerDB LogicBoolean `yaml:"directoryPerDB"`
 
 	//Default: 60
 	//
@@ -74,7 +74,7 @@ type Storage struct {
 	//The storage.syncPeriodSecs setting is available only for mongod.
 	//
 	//Not available for mongod instances that use the in-memory storage engine.
-	SyncPeriodSecs int `yaml:"-"`
+	SyncPeriodSecs int `yaml:"syncPeriodSecs"`
 
 	//Default: wiredTiger
 	//
@@ -90,8 +90,8 @@ type Storage struct {
 	//New in version 3.2: Available in MongoDB Enterprise only.
 	//
 	//If you attempt to start a mongod with a storage.dbPath that contains data files produced by a storage engine other than the one specified by storage.engine, mongod will refuse to start.
-	Engine string `yaml:"-"`
+	Engine string `yaml:"engine"`
 
-	WiredTiger WiredTiger `yaml:"-"`
-	InMemory   InMemory   `yaml:"-"`
+	WiredTiger WiredTiger `yaml:"wiredTiger"`
+	InMemory   InMemory   `yaml:"inMemory"`
 }

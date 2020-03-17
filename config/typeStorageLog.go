@@ -12,6 +12,6 @@ type StorageLog struct {
 	//    1 to 5 increases the verbosity level to include Debug messages.
 	Verbosity Verbosity `yaml:"verbosity"`
 
-	Journal  JournalLog  `yaml:"-"`
-	Recovery RecoveryLog `yaml:"-"`
+	Journal  JournalLog  `yaml:"journal"`
+	Recovery RecoveryLog `yaml:"recovery"`
 }

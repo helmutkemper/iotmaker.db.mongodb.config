@@ -19,7 +19,7 @@ type Replication struct {
 	//See Oplog Size for more information.
 	//
 	//The replication.oplogSizeMB setting is available only for mongod.
-	OpLogSizeMB int64 `yaml:"-"`
+	OpLogSizeMB int64 `yaml:"oplogSizeMB"`
 
 	//The name of the replica set that the mongod is part of. All hosts in the replica set
 	//must have the same set name.
@@ -35,7 +35,7 @@ type Replication struct {
 	//storage.indexBuildRetry.
 	//For the WiredTiger storage engine, storage.journal.enabled: false cannot be used in
 	//conjunction with replication.replSetName.
-	ReplSetName string `yaml:"-"`
+	ReplSetName string `yaml:"replSetName"`
 
 	//Starting in MongoDB 3.6, MongoDB enables support for "majority" read concern by
 	//default.
@@ -72,5 +72,5 @@ type Replication struct {
 	//    Disabling "majority" read concern disables support for Change Streams for MongoDB
 	//    4.0 and earlier. For MongoDB 4.2+, disabling read concern "majority" has no
 	//    effect on change streams availability.
-	EnableMajorityReadConcern LogicBoolean
+	EnableMajorityReadConcern LogicBoolean `yaml:"enableMajorityReadConcern"`
 }

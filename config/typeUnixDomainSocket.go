@@ -14,7 +14,7 @@ type UnixDomainSocket struct {
 	//net.bindIp is not set
 	//net.bindIp does not specify localhost or its associated IP address
 	//mongos or mongod installed from official .deb and .rpm packages have the bind_ip configuration set to 127.0.0.1 by default.
-	Enabled LogicBoolean `yaml:"-"`
+	Enabled LogicBoolean `yaml:"enabled"`
 
 	//Default: /tmp
 	//
@@ -26,14 +26,12 @@ type UnixDomainSocket struct {
 	//--nounixsocket is set
 	//net.bindIp is not set
 	//net.bindIp does not specify localhost or its associated IP address
-	PathPrefix LogicBoolean `yaml:"-"`
+	PathPrefix LogicBoolean `yaml:"pathPrefix"`
 
 	//Default: 0700
 	//
 	//Sets the permission for the UNIX domain socket file.
 	//
 	//net.unixDomainSocket.filePermissions applies only to Unix-based systems.
-	FilePermissions int `yaml:"-"`
-
-	Tls Tls `yaml:"-"`
+	FilePermissions int `yaml:"filePermissions"`
 }

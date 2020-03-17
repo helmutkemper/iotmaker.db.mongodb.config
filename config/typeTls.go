@@ -15,7 +15,7 @@ type Tls struct {
 	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	Mode string `yaml:"-"`
+	Mode string `yaml:"mode"`
 
 	//New in version 4.2: The .pem file that contains both the TLS certificate and key.
 	//
@@ -28,7 +28,7 @@ type Tls struct {
 	//IMPORTANT: For Windows only, MongoDB 4.0 and later do not support encrypted PEM files. The mongod fails to start if it encounters an encrypted PEM file. To securely store and access a certificate for use with TLS on Windows, use net.tls.certificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CertificateKeyFile string `yaml:"-"`
+	CertificateKeyFile string `yaml:"certificateKeyFile"`
 
 	//New in version 4.2: The password to de-crypt the certificate-key file (i.e. certificateKeyFile). Use the net.tls.certificateKeyPassword option only if the certificate-key file is encrypted. In all cases, the mongos or mongod will redact the password from all logging and reporting output.
 	//
@@ -38,7 +38,7 @@ type Tls struct {
 	//On macOS, if the private key in the PEM file is encrypted, you must explicitly specify the net.tls.certificateKeyFilePassword option. Alternatively, you can use a certificate from the secure system store (see net.tls.certificateSelector) instead of a PEM key file or use an unencrypted PEM file.
 	//On Windows, MongoDB does not support encrypted certificates. The mongod fails if it encounters an encrypted PEM file. Use net.tls.certificateSelector instead.
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CertificateKeyFilePassword string `yaml:"-"`
+	CertificateKeyFilePassword string `yaml:"certificateKeyFilePassword"`
 
 	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.certificateKeyFile.
 	//
@@ -60,7 +60,7 @@ type Tls struct {
 	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified TLS certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the TLS certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate
 	//
 	//For example, if the TLS certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the TLS certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
-	CertificateSelector string `yaml:"-"`
+	CertificateSelector string `yaml:"certificateSelector"`
 
 	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.clusterFile.
 	//
@@ -80,7 +80,7 @@ type Tls struct {
 	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified cluster certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the cluster certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate.
 	//
 	//For example, if the cluster certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the cluster certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
-	ClusterCertificateSelector string `yaml:"-"`
+	ClusterCertificateSelector string `yaml:"clusterCertificateSelector"`
 
 	//New in version 4.2: The .pem file that contains the x.509 certificate-key file for membership authentication for the cluster or replica set.
 	//
@@ -93,7 +93,7 @@ type Tls struct {
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
 	//
 	//IMPORTANT: For Windows only, MongoDB 4.0 and later do not support encrypted PEM files. The mongod fails to start if it encounters an encrypted PEM file. To securely store and access a certificate for use with membership authentication on Windows, use net.tls.clusterCertificateSelector.
-	ClusterFile string `yaml:"-"`
+	ClusterFile string `yaml:"clusterFile"`
 
 	//New in version 4.2: The password to de-crypt the x.509 certificate-key file specified with --sslClusterFile. Use the net.tls.clusterPassword option only if the certificate-key file is encrypted. In all cases, the mongos or mongod will redact the password from all logging and reporting output.
 	//
@@ -103,14 +103,14 @@ type Tls struct {
 	//On macOS, if the private key in the x.509 file is encrypted, you must explicitly specify the net.tls.clusterPassword option. Alternatively, you can either use a certificate from the secure system store (see net.tls.clusterCertificateSelector) instead of a cluster PEM file or use an unencrypted PEM file.
 	//On Windows, MongoDB does not support encrypted certificates. The mongod fails if it encounters an encrypted PEM file. Use net.tls.clusterCertificateSelector.
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterPassword string `yaml:"-"`
+	ClusterPassword string `yaml:"clusterPassword"`
 
 	//New in version 4.2: The .pem file that contains the root certificate chain from the Certificate Authority. Specify the file name of the .pem file using relative or absolute paths.
 	//
 	//Windows/macOS Only: If using net.tls.certificateSelector and/or net.tls.clusterCertificateSelector, do not use net.tls.CAFile to specify the root and intermediate CA certificates. Store all CA certificates required to validate the full trust chain of the net.tls.certificateSelector and/or net.tls.clusterCertificateSelector certificates in the secure certificate store.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CAFile string `yaml:"-"`
+	CAFile string `yaml:"CAFile"`
 
 	//New in version 4.2: The .pem file that contains the root certificate chain from the Certificate Authority used to validate the certificate presented by a client establishing a connection. Specify the file name of the .pem file using relative or absolute paths. net.tls.clusterCAFile requires that net.tls.CAFile is set.
 	//
@@ -123,7 +123,7 @@ type Tls struct {
 	//Windows/macOS Only: If using net.tls.certificateSelector and/or net.tls.clusterCertificateSelector, do not use net.tls.clusterCAFile to specify the root and intermediate CA certificates. Store all CA certificates required to validate the full trust chain of the net.tls.certificateSelector and/or net.tls.clusterCertificateSelector certificates in the secure certificate store.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterCAFile string `yaml:"-"`
+	ClusterCAFile string `yaml:"clusterCAFile"`
 
 	//New in version 4.2.
 	//
@@ -132,7 +132,7 @@ type Tls struct {
 	//NOTE: Starting in MongoDB 4.0, you cannot specify net.tls.CRLFile on macOS. Use net.tls.certificateSelector instead.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CRLFile string `yaml:"-"`
+	CRLFile string `yaml:"CRLFile"`
 
 	//New in version 4.2.
 	//
@@ -143,7 +143,7 @@ type Tls struct {
 	//Use the net.tls.allowConnectionsWithoutCertificates option if you have a mixed deployment that includes clients that do not or cannot present certificates to the mongos or mongod.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	AllowConnectionsWithoutCertificates LogicBoolean `yaml:"-"`
+	AllowConnectionsWithoutCertificates LogicBoolean `yaml:"allowConnectionsWithoutCertificates"`
 
 	//New in version 4.2.
 	//
@@ -156,14 +156,14 @@ type Tls struct {
 	//When using the net.tls.allowInvalidCertificates setting, MongoDB logs a warning regarding the use of the invalid certificate.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	AllowInvalidCertificates LogicBoolean `yaml:"-"`
+	AllowInvalidCertificates LogicBoolean `yaml:"allowInvalidCertificates"`
 
 	//Default: false
 	//
 	//When net.tls.allowInvalidHostnames is true, MongoDB disables the validation of the hostnames in TLS certificates, allowing mongod to connect to MongoDB instances if the hostname their certificates do not match the specified hostname.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	AllowInvalidHostnames LogicBoolean `yaml:"-"`
+	AllowInvalidHostNames LogicBoolean `yaml:"allowInvalidHostnames"`
 
 	//New in version 4.2.
 	//
@@ -180,12 +180,12 @@ type Tls struct {
 	//Members of replica sets and sharded clusters must speak at least one protocol in common.
 	//
 	//SEE ALSO: Disallow Protocols https://docs.mongodb.com/manual/tutorial/configure-ssl/#ssl-disallow-protocols
-	DisabledProtocols string `yaml:"-"`
+	DisabledProtocols string `yaml:"disabledProtocols"`
 
 	//New in version 4.2.
 	//
 	//Enable or disable the use of the FIPS mode of the TLS library for the mongos or mongod. Your system must have a FIPS compliant library to use the net.tls.FIPSMode option.
 	//
 	//NOTE: FIPS-compatible TLS/SSL is available only in MongoDB Enterprise. See Configure MongoDB for FIPS for more information.
-	FIPSMode LogicBoolean `yaml:"-"`
+	FIPSMode LogicBoolean `yaml:"FIPSMode"`
 }

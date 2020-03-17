@@ -26,5 +26,5 @@ type Compression struct {
 	//If you specify multiple compressors, then the order in which you list the compressors matter as well as the communication initiator. For example, if a mongo shell specifies the following network compressors zlib,snappy and the mongod specifies snappy,zlib, messages between mongo shell and mongod uses zlib.
 	//
 	//If the parties do not share at least one common compressor, messages between the parties are uncompressed. For example, if a mongo shell specifies the network compressor zlib and mongod specifies snappy, messages between mongo shell and mongod are not compressed.
-	Compressors string `yaml:"-"`
+	Compressors Compressor `yaml:"compressors"`
 }

@@ -12,7 +12,7 @@ type Kmip struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	KeyIdentifier string `yaml:"-"`
+	KeyIdentifier string `yaml:"keyIdentifier"`
 
 	//Default: false
 	//
@@ -25,14 +25,14 @@ type Kmip struct {
 	//Available in MongoDB Enterprise only.
 	//
 	//SEE ALSO: KMIP Master Key Rotation https://docs.mongodb.com/manual/tutorial/rotate-encryption-key/#kmip-master-key-rotation
-	RotateMasterKey LogicBoolean `yaml:"-"`
+	RotateMasterKey LogicBoolean `yaml:"rotateMasterKey"`
 
 	//New in version 3.2.
 	//
 	//Hostname or IP address of key management solution running a KMIP server. Requires security.enableEncryption to be true.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ServerName string `yaml:"-"`
+	ServerName string `yaml:"serverName"`
 
 	//Default: 5696
 	//
@@ -41,7 +41,7 @@ type Kmip struct {
 	//Port number the KMIP server is listening on. Requires that a security.kmip.serverName be provided. Requires security.enableEncryption to be true.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	Port int `yaml:"-"`
+	Port int `yaml:"port"`
 
 	//New in version 3.2.
 	//
@@ -52,14 +52,14 @@ type Kmip struct {
 	//Starting in 4.0, on macOS or Windows, you can use a certificate from the operating system’s secure store instead of a PEM key file. See security.kmip.clientCertificateSelector.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ClientCertificateFile string `yaml:"-"`
+	ClientCertificateFile string `yaml:"clientCertificateFile"`
 
 	//New in version 3.2.
 	//
 	//The password to decrypt the client certificate (i.e. security.kmip.clientCertificateFile), used to authenticate MongoDB to the KMIP server. Use the option only if the certificate is encrypted.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ClientCertificatePassword string `yaml:"-"`
+	ClientCertificatePassword string `yaml:"clientCertificatePassword"`
 
 	//New in version 4.0: Available on Windows and macOS as an alternative to security.kmip.clientCertificateFile.
 	//
@@ -77,7 +77,7 @@ type Kmip struct {
 	//The thumbprint is sometimes referred to as a fingerprint.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ClientCertificateSelector string `yaml:"-"`
+	ClientCertificateSelector string `yaml:"clientCertificateSelector"`
 
 	//New in version 3.2.
 	//
@@ -88,5 +88,5 @@ type Kmip struct {
 	//Starting in 4.0, on macOS or Windows, you can use a certificate from the operating system’s secure store instead of a PEM key file. See security.kmip.clientCertificateSelector. When using the secure store, you do not need to, but can, also specify the security.kmip.serverCAFile.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ServerCAFile string `yaml:"-"`
+	ServerCAFile string `yaml:"serverCAFile"`
 }

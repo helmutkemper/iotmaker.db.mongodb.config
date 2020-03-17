@@ -10,5 +10,5 @@ type InMemoryEngineConfig struct {
 	//By default, the in-memory storage engine uses 50% of physical RAM minus 1 GB.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	InMemorySizeGB float64 `yaml:"-"`
+	InMemorySizeGB float64 `yaml:"inMemorySizeGB"`
 }

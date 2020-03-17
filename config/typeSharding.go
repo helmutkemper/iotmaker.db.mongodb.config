@@ -11,10 +11,10 @@ type Sharding struct {
 	//Setting sharding.clusterRole requires the mongod instance to be running with replication. To deploy the instance as a replica set member, use the replSetName setting and specify the name of the replica set.
 	//
 	//The sharding.clusterRole setting is available only for mongod.
-	ClusterRole string `yaml:"-"`
+	ClusterRole string `yaml:"clusterRole"`
 
 	//Changed in version 3.2: Starting in 3.2, MongoDB uses false as the default.
 	//
 	//During chunk migration, a shard does not save documents migrated from the shard.
-	archiveMovedChunks LogicBoolean `yaml:"-"`
+	archiveMovedChunks LogicBoolean `yaml:"archiveMovedChunks"`
 }

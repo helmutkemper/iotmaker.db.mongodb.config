@@ -8,12 +8,12 @@ type ReplicationLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity Verbosity `yaml:"verbosity"` //ok
+	Verbosity Verbosity `yaml:"verbosity"`
 
-	Election    ElectionLog    `yaml:"Election"`    //ok
-	Heartbeats  HeartbeatsLog  `yaml:"heartbeats"`  //ok
-	InitialSync InitialSyncLog `yaml:"initialSync"` //ok
-	Rollback    RollbackLog    `yaml:"rollback"`    //ok
-	Sharding    ShardingLog    `yaml:"sharding"`    //ok
-	Storage     StorageLog     `yaml:"storage"`     //ok
+	Election    ElectionLog    `yaml:"Election"`
+	Heartbeats  HeartbeatsLog  `yaml:"heartbeats"`
+	InitialSync InitialSyncLog `yaml:"initialSync"`
+	Rollback    RollbackLog    `yaml:"rollback"`
+	Sharding    ShardingLog    `yaml:"sharding"`
+	Storage     StorageLog     `yaml:"storage"`
 }

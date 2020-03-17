@@ -10,7 +10,7 @@ type Journal struct {
 	//Not available for mongod instances that use the in-memory storage engine.
 	//
 	//Starting in MongoDB 4.0, you cannot specify --nojournal option or storage.journal.enabled: false for replica set members that use the WiredTiger storage engine.
-	Enabled LogicBoolean `yaml:"-"`
+	Enabled LogicBoolean `yaml:"enabled"`
 
 	//Default: 100
 	//
@@ -23,5 +23,5 @@ type Journal struct {
 	//Not available for mongod instances that use the in-memory storage engine.
 	//
 	//NOTE: Known Issue in 4.2.0: The storage.journal.commitIntervalMs is missing in 4.2.0.
-	CommitIntervalMs int `yaml:"-"`
+	CommitIntervalMs int `yaml:"commitIntervalMs"`
 }

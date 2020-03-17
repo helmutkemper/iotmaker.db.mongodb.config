@@ -12,7 +12,7 @@ type OperationProfiling struct {
 	//IMPORTANT: Profiling can impact performance and shares settings with the system log. Carefully consider any performance and security implications before configuring and enabling the profiler on a production deployment.
 	//
 	//See Profiler Overhead for more information on potential performance degradation.
-	Mode string `yaml:"-"`
+	Mode string `yaml:"mode"`
 
 	//Default: 100
 	//
@@ -26,7 +26,7 @@ type OperationProfiling struct {
 	//
 	//For mongod instances, the setting affects both the diagnostic log and, if enabled, the profiler.
 	//For mongos instances, the setting affects the diagnostic log only and not the profiler since profiling is not available on mongos.
-	SlowOpThresholdMs int `yaml:"-"`
+	SlowOpThresholdMs int `yaml:"slowOpThresholdMs"`
 
 	//Default: 1.0
 	//
@@ -38,5 +38,5 @@ type OperationProfiling struct {
 	//
 	//For mongod instances, the setting affects both the diagnostic log and, if enabled, the profiler.
 	//For mongos instances, the setting affects the diagnostic log only and not the profiler since profiling is not available on mongos.
-	SlowOpSampleRate float64 `yaml:"-"`
+	SlowOpSampleRate float64 `yaml:"slowOpSampleRate"`
 }

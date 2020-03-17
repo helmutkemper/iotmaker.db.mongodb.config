@@ -37,15 +37,5 @@ type Authz struct {
 	//NOTE
 	//
 	//An explanation of RFC4515, RFC4516 or LDAP queries is out of scope for the MongoDB Documentation. Please review the RFC directly or use your preferred LDAP resource.
-	QueryTemplate string `yaml:"-"`
-
-	//Default: true
-	//
-	//Available in MongoDB Enterprise
-	//
-	//A flag that determines if the mongod or mongos instance checks the availability of the LDAP server(s) as part of its startup:
-	//
-	//If true, the mongod or mongos instance performs the availability check and only continues to start up if the LDAP server is available.
-	//If false, the mongod or mongos instance skips the availability check; i.e. the instance starts up even if the LDAP server is unavailable.
-	ValidateLDAPServerConfig LogicBoolean `yaml:"-"`
+	QueryTemplate string `yaml:"queryTemplate"`
 }

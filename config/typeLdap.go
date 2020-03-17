@@ -10,8 +10,8 @@ type Ldap struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//If unset, mongod or mongos cannot use LDAP authentication or authorization.
-	Servers string `yaml:"-"`
-	Bind    Bind   `yaml:"-"`
+	Servers string `yaml:"servers"`
+	Bind    Bind   `yaml:"bind"`
 
 	//Default: tls
 	//
@@ -26,7 +26,7 @@ type Ldap struct {
 	//Set transportSecurity to none to disable TLS/SSL between mongod or mongos and the LDAP server.
 	//
 	//WARNING: Setting transportSecurity to none transmits plaintext information and possibly credentials between mongod or mongos and the LDAP server.
-	transportSecurity string `yaml:"-"`
+	transportSecurity string `yaml:"transportSecurity"`
 
 	//Default: 10000
 	//
@@ -37,7 +37,7 @@ type Ldap struct {
 	//Increasing the value of timeoutMS may prevent connection failure between the MongoDB server and the LDAP server, if the source of the failure is a connection timeout. Decreasing the value of timeoutMS reduces the time MongoDB waits for a response from the LDAP server.
 	//
 	//This setting can be configured on a running mongod or mongos using setParameter.
-	TimeoutMS int `yaml:"-"`
+	TimeoutMS int `yaml:"timeoutMS"`
 
 	//New in version 3.4: Available in MongoDB Enterprise only.
 	//
@@ -100,6 +100,16 @@ type Ldap struct {
 	//If userToDNMapping is unset, mongod or mongos applies no transformations to the username when attempting to authenticate or authorize a user against the LDAP server.
 	//
 	//This setting can be configured on a running mongod or mongos using the setParameter database command.
-	UserToDNMapping string `yaml:"-"`
-	Authz           Authz  `yaml:"-"`
+	UserToDNMapping string `yaml:"userToDNMapping"`
+	Authz           Authz  `yaml:"authz"`
+
+	//Default: true
+	//
+	//Available in MongoDB Enterprise
+	//
+	//A flag that determines if the mongod or mongos instance checks the availability of the LDAP server(s) as part of its startup:
+	//
+	//If true, the mongod or mongos instance performs the availability check and only continues to start up if the LDAP server is available.
+	//If false, the mongod or mongos instance skips the availability check; i.e. the instance starts up even if the LDAP server is unavailable.
+	ValidateLDAPServerConfig LogicBoolean `yaml:"validateLDAPServerConfig"`
 }

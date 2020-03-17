@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-//https://docs.mongodb.com/manual/reference/configuration-options/#cloud.monitoring.free.state
+//https://docs.mongodb.com/manual/reference/configuration-options/
 //todo:https://docs.mongodb.com/manual/reference/configuration-options/#mongos-only-options
 
 type Configuration struct {
@@ -148,6 +148,12 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 			str := strconv.FormatInt(int64(field.Interface().(Verbosity)), 10)
 			el.writeKeyValue(buffer, tagValue, str)
 
+		case "iotmaker_db_mongodb_config.FreeState":
+
+			el.writeSpaces(buffer, level)
+			str := field.Interface().(FreeState).String()
+			el.writeKeyValueForString(buffer, tagValue, str)
+
 		case "iotmaker_db_mongodb_config.LogicBoolean":
 
 			if field.Interface().(LogicBoolean) == -1 {
@@ -251,44 +257,383 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 				return err
 			}
 
+		case "iotmaker_db_mongodb_config.Monitoring":
+
+			if reflect.DeepEqual(Monitoring{}, field.Interface().(Monitoring)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Free":
+
+			if reflect.DeepEqual(Free{}, field.Interface().(Free)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.InMemoryEngineConfig":
+
+			if reflect.DeepEqual(InMemoryEngineConfig{}, field.Interface().(InMemoryEngineConfig)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Compression":
+
+			if reflect.DeepEqual(Compression{}, field.Interface().(Compression)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Journal":
+
+			if reflect.DeepEqual(Journal{}, field.Interface().(Journal)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.RecoveryLog":
+
+			if reflect.DeepEqual(RecoveryLog{}, field.Interface().(RecoveryLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.ProcessManagement":
-			fallthrough
+
+			if reflect.DeepEqual(ProcessManagement{}, field.Interface().(ProcessManagement)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.AccessControlLog":
-			fallthrough
+
+			if reflect.DeepEqual(AccessControlLog{}, field.Interface().(AccessControlLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.CommandLog":
-			fallthrough
+
+			if reflect.DeepEqual(CommandLog{}, field.Interface().(CommandLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.ControlLog":
-			fallthrough
+
+			if reflect.DeepEqual(ControlLog{}, field.Interface().(ControlLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.FtdcLog":
-			fallthrough
+
+			if reflect.DeepEqual(FtdcLog{}, field.Interface().(FtdcLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.GeoLog":
-			fallthrough
+
+			if reflect.DeepEqual(GeoLog{}, field.Interface().(GeoLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.IndexLog":
-			fallthrough
+
+			if reflect.DeepEqual(IndexLog{}, field.Interface().(IndexLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.NetworkLog":
-			fallthrough
+
+			if reflect.DeepEqual(NetworkLog{}, field.Interface().(NetworkLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.QueryLog":
-			fallthrough
+
+			if reflect.DeepEqual(QueryLog{}, field.Interface().(QueryLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.ReplicationLog":
-			fallthrough
+
+			if reflect.DeepEqual(ReplicationLog{}, field.Interface().(ReplicationLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.TransactionLog":
-			fallthrough
+
+			if reflect.DeepEqual(TransactionLog{}, field.Interface().(TransactionLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.WriteLog":
-			fallthrough
+
+			if reflect.DeepEqual(WriteLog{}, field.Interface().(WriteLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.ElectionLog":
-			fallthrough
+
+			if reflect.DeepEqual(ElectionLog{}, field.Interface().(ElectionLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.HeartbeatsLog":
-			fallthrough
+
+			if reflect.DeepEqual(HeartbeatsLog{}, field.Interface().(HeartbeatsLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.InitialSyncLog":
-			fallthrough
+
+			if reflect.DeepEqual(InitialSyncLog{}, field.Interface().(InitialSyncLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.RollbackLog":
-			fallthrough
+
+			if reflect.DeepEqual(RollbackLog{}, field.Interface().(RollbackLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.ShardingLog":
-			fallthrough
+
+			if reflect.DeepEqual(ShardingLog{}, field.Interface().(ShardingLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.StorageLog":
-			fallthrough
+
+			if reflect.DeepEqual(StorageLog{}, field.Interface().(StorageLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.Net":
-			fallthrough
+
+			if reflect.DeepEqual(Net{}, field.Interface().(Net)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.JournalLog":
+
+			if reflect.DeepEqual(JournalLog{}, field.Interface().(JournalLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Sasl":
+
+			if reflect.DeepEqual(Sasl{}, field.Interface().(Sasl)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Kmip":
+
+			if reflect.DeepEqual(Kmip{}, field.Interface().(Kmip)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Ldap":
+
+			if reflect.DeepEqual(Ldap{}, field.Interface().(Ldap)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
 		case "iotmaker_db_mongodb_config.Security":
 
 			el.writeSpaces(buffer, level)
@@ -299,7 +644,7 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 			}
 
 		default:
-			fmt.Printf("\nhtmlTag(): %v[ %d ]: %s - %s = %v\n", tagValue, i, field.Type(), field.Interface(), tagName)
+			fmt.Printf("\nyaml(): %v[ %d ]: %s - %s = %v\n", tagValue, i, field.Type(), field.Interface(), tagName)
 		}
 	}
 
