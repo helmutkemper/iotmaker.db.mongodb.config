@@ -1,7 +1,11 @@
 package iotmaker_db_mongodb_config
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
+	"reflect"
+	"strconv"
 )
 
 //https://docs.mongodb.com/manual/reference/configuration-options/#cloud.monitoring.free.state
@@ -15,7 +19,7 @@ type AccessControlLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type CommandLog struct {
@@ -26,7 +30,7 @@ type CommandLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type ControlLog struct {
@@ -37,7 +41,7 @@ type ControlLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type FtdcLog struct {
@@ -50,7 +54,7 @@ type FtdcLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type GeoLog struct {
@@ -61,7 +65,7 @@ type GeoLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type IndexLog struct {
@@ -72,7 +76,7 @@ type IndexLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type NetworkLog struct {
@@ -83,7 +87,7 @@ type NetworkLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type QueryLog struct {
@@ -94,7 +98,7 @@ type QueryLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type ElectionLog struct {
@@ -109,7 +113,7 @@ type ElectionLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type ReplicationLog struct {
@@ -120,14 +124,14 @@ type ReplicationLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"` //ok
 
-	Election    ElectionLog
-	Heartbeats  HeartbeatsLog
-	InitialSync InitialSyncLog
-	Rollback    RollbackLog
-	Sharding    ShardingLog
-	Storage     StorageLog
+	Election    ElectionLog    `yaml:"Election"`    //ok
+	Heartbeats  HeartbeatsLog  `yaml:"heartbeats"`  //ok
+	InitialSync InitialSyncLog `yaml:"initialSync"` //ok
+	Rollback    RollbackLog    `yaml:"rollback"`    //ok
+	Sharding    ShardingLog    `yaml:"sharding"`    //ok
+	Storage     StorageLog     `yaml:"storage"`     //ok
 }
 
 type StorageLog struct {
@@ -140,10 +144,10 @@ type StorageLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 
-	Journal  JournalLog
-	Recovery RecoveryLog
+	Journal  JournalLog  `yaml:"-"`
+	Recovery RecoveryLog `yaml:"-"`
 }
 
 type RecoveryLog struct {
@@ -158,7 +162,7 @@ type RecoveryLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type JournalLog struct {
@@ -171,7 +175,7 @@ type JournalLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type ShardingLog struct {
@@ -182,7 +186,7 @@ type ShardingLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type RollbackLog struct {
@@ -197,7 +201,7 @@ type RollbackLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type HeartbeatsLog struct {
@@ -212,7 +216,7 @@ type HeartbeatsLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type InitialSyncLog struct {
@@ -227,7 +231,7 @@ type InitialSyncLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type WriteLog struct {
@@ -238,7 +242,7 @@ type WriteLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type TransactionLog struct {
@@ -251,21 +255,21 @@ type TransactionLog struct {
 	//The verbosity level can range from 0 to 5:
 	//    0 is the MongoDB’s default log verbosity level, to include Informational messages.
 	//    1 to 5 increases the verbosity level to include Debug messages.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"`
 }
 
 type Component struct {
-	AccessControl AccessControlLog
-	Command       CommandLog
-	Control       ControlLog
-	Ftdc          FtdcLog
-	Geo           GeoLog
-	Index         IndexLog
-	Network       NetworkLog
-	Query         QueryLog
-	Replication   ReplicationLog
-	Transaction   TransactionLog
-	Write         WriteLog
+	AccessControl AccessControlLog `yaml:"accessControl"` //ok
+	Command       CommandLog       `yaml:"command"`       //ok
+	Control       ControlLog       `yaml:"control"`       //ok
+	Ftdc          FtdcLog          `yaml:"ftdc"`          //ok
+	Geo           GeoLog           `yaml:"geo"`           //ok
+	Index         IndexLog         `yaml:"index"`         //ok
+	Network       NetworkLog       `yaml:"Network"`       //ok
+	Query         QueryLog         `yaml:"query"`         //ok
+	Replication   ReplicationLog   `yaml:"replication"`   //ok
+	Transaction   TransactionLog   `yaml:"transaction"`   //ok
+	Write         WriteLog         `yaml:"write"`         //ok
 }
 
 type ProcessManagement struct {
@@ -276,20 +280,20 @@ type ProcessManagement struct {
 	//The processManagement.fork option is not supported on Windows.
 	//
 	//The Linux package init scripts do not expect processManagement.fork to change from the defaults. If you use the Linux packages and change processManagement.fork, you will have to use your own init scripts and disable the built-in scripts.
-	Fork bool
+	Fork LogicBoolean `yaml:"fork"`
 
 	//Specifies a file location to store the process ID (PID) of the mongos or mongod process . The user running the the mongod or mongos process must be able to write to this path. If the processManagement.pidFilePath option is not specified, the process does not create a PID file. This option is generally only useful in combination with the processManagement.fork setting.
 	//    LINUX: On Linux, PID file management is generally the responsibility of your distro’s init system:
 	//      usually a service file in the /etc/init.d directory, or a systemd unit file registered with systemctl. Only use the processManagement.pidFilePath option if you are not using one of these init systems. For more information, please see the respective Installation Guide for your operating system.
 	//    MACOS: On macOS, PID file management is generally handled by brew. Only use the processManagement.pidFilePath option if you are not using brew on your macOS system. For more information, please see the respective Installation Guide for your operating system.
-	PidFilePath string
+	PidFilePath string `yaml:"pidFilePath"`
 
 	//The full path from which to load the time zone database. If this option is not provided, then MongoDB will use its built-in time zone database.
 	//
 	//The configuration file included with Linux and macOS packages sets the time zone database path to /usr/share/zoneinfo by default.
 	//
 	//The built-in time zone database is a copy of the Olson/IANA time zone database. It is updated along with MongoDB releases, but the release cycle of the time zone database differs from the release cycle of MongoDB. A copy of the most recent release of the time zone database can be downloaded from https://downloads.mongodb.org/olson_tz_db/timezonedb-latest.zip.
-	TimeZoneInfo string
+	TimeZoneInfo string `yaml:"timeZoneInfo"`
 }
 
 type Configuration struct {
@@ -307,30 +311,30 @@ type Configuration struct {
 	//For various ways to set the log verbosity level, see Configure Log Verbosity Levels.
 	//
 	//[2]	Starting in version 4.2, MongoDB includes the Debug verbosity level (1-5) in the log messages. For example, if the verbosity level is 2, MongoDB logs D2. In previous versions, MongoDB log messages only specified D for Debug level.
-	Verbosity int
+	Verbosity Verbosity `yaml:"verbosity"` //ok
 
 	//Run mongos or mongod in a quiet mode that attempts to limit the amount of output.
 	//
 	//systemLog.quiet is not recommended for production systems as it may make tracking problems during particular connections much more difficult.
-	Quiet bool
+	Quiet LogicBoolean `yaml:"quiet"` //ok
 
 	//Print verbose information for debugging. Use for additional logging for support-related troubleshooting.
-	TraceAllExceptions bool
+	TraceAllExceptions LogicBoolean `yaml:"traceAllExceptions"` //ok
 
 	//Default: user
 	//
 	//The facility level used when logging messages to syslog. The value you specify must be supported by your operating system’s implementation of syslog. To use this option, you must set systemLog.destination to syslog.
-	SyslogFacility string
+	SyslogFacility int `yaml:"syslogFacility"` //ok
 
 	//The path of the log file to which mongod or mongos should send all diagnostic logging information, rather than the standard output or the host’s syslog. MongoDB creates the log file at the specified path.
 	//
 	//The Linux package init scripts do not expect systemLog.path to change from the defaults. If you use the Linux packages and change systemLog.path, you will have to use your own init scripts and disable the built-in scripts.
-	Path string
+	Path string `yaml:"path"` //ok
 
 	//Default: false
 	//
 	//When true, mongos or mongod appends new entries to the end of the existing log file when the mongos or mongod instance restarts. Without this option, mongod will back up the existing log and create a new file.
-	LogAppend bool
+	LogAppend LogicBoolean `yaml:"logAppend"` //ok
 
 	//Default: rename
 	//
@@ -341,14 +345,14 @@ type Configuration struct {
 	//reopen closes and reopens the log file following the typical Linux/Unix log rotate behavior. Use reopen when using the Linux/Unix logrotate utility to avoid log loss.
 	//
 	//If you specify reopen, you must also set systemLog.logAppend to true.
-	LogRotate LogRotate
+	LogRotate LogRotate `yaml:"logRotate"` //ok
 
 	//The destination to which MongoDB sends all log output. Specify either file or syslog. If you specify file, you must also specify systemLog.path.
 	//
 	//If you do not specify systemLog.destination, MongoDB sends all log output to standard output.
 	//
 	//WARNING: The syslog daemon generates timestamps when it logs a message, not when MongoDB issues the message. This can lead to misleading timestamps for log entries, especially when the system is under heavy load. We recommend using the file option for production systems to ensure accurate timestamps.
-	Destination string
+	Destination string `yaml:"destination"` //ok
 
 	//Default: iso8601-local
 	//
@@ -358,17 +362,17 @@ type Configuration struct {
 	//ctime		Displays timestamps as Wed Dec 31 18:17:54.811.
 	//iso8601-utc	Displays timestamps in Coordinated Universal Time (UTC) in the ISO-8601 format. For example, for New York at the start of the Epoch: 1970-01-01T00:00:00.000Z
 	//iso8601-local	Displays timestamps in local time in the ISO-8601 format. For example, for New York at the start of the Epoch: 1969-12-31T19:00:00.000-0500
-	TimeStampFormat TimeStampFormat
+	TimeStampFormat TimeStampFormat `yaml:"timeStampFormat"` //ok
 
 	//NOTE: Starting in version 4.2, MongoDB includes the Debug verbosity level (1-5) in the log messages. For example, if the verbosity level is 2, MongoDB logs D2. In previous versions, MongoDB log messages only specified D for Debug level.
-	Component         Component
-	ProcessManagement ProcessManagement
-	Cloud             Cloud
+	Component         Component         `yaml:"component"`         //ok
+	ProcessManagement ProcessManagement `yaml:"processManagement"` //ok
+	Cloud             Cloud             `yaml:"cloud"`             //ok
 
 	//Changed in version 4.2: MongoDB 4.2 deprecates ssl options in favor of tls options with identical functionality.
-	Net Net
+	Net Net `yaml:"net"` //ok
 
-	Security Security
+	Security Security `yaml:"security"`
 
 	//Set MongoDB parameter or parameters described in MongoDB Server Parameters
 	//
@@ -381,7 +385,7 @@ type Configuration struct {
 	//
 	//setParameter:
 	//   enableLocalhostAuthBypass: false
-	SetParameter map[string]interface{}
+	SetParameter interface{} `yaml:"-"` //todo: fazer
 
 	//Default: 30
 	//
@@ -393,14 +397,228 @@ type Configuration struct {
 	//
 	//setParameter:
 	//   ldapUserCacheInvalidationInterval: <int>
-	LdapUserCacheInvalidationInterval int
+	LdapUserCacheInvalidationInterval int `yaml:"-"`
 
-	Storage            Storage
-	OperationProfiling OperationProfiling
-	Replication        Replication
-	Sharding           Sharding
-	AuditLog           AuditLog
-	Snmp               Snmp
+	Storage            Storage            `yaml:"-"`
+	OperationProfiling OperationProfiling `yaml:"-"`
+	Replication        Replication        `yaml:"-"`
+	Sharding           Sharding           `yaml:"-"`
+	AuditLog           AuditLog           `yaml:"-"`
+	Snmp               Snmp               `yaml:"-"`
+}
+
+func (el *Configuration) getTagData(tag reflect.StructTag) (string, string) {
+	var tagName, tagValue string
+
+	tagName = "htmlAttr"
+	tagValue = tag.Get(tagName)
+	if tagValue != "" {
+		return tagName, tagValue
+	}
+
+	tagName = "htmlAttrSet"
+	tagValue = tag.Get(tagName)
+	if tagValue != "" {
+		return tagName, tagValue
+	}
+
+	tagName = "htmlAttrOnOff"
+	tagValue = tag.Get(tagName)
+	if tagValue != "" {
+		return tagName, tagValue
+	}
+
+	tagName = "htmlAttrTrueFalse"
+	tagValue = tag.Get(tagName)
+	if tagValue != "" {
+		return tagName, tagValue
+	}
+
+	return "", ""
+}
+
+func (el *Configuration) getTagDataByName(tagName string, tag reflect.StructTag) (string, string) {
+	var tagValue string
+
+	tagValue = tag.Get(tagName)
+	if tagValue != "" {
+		return tagName, tagValue
+	}
+
+	return "", ""
+}
+
+func (el *Configuration) writeSpaces(buffer *bytes.Buffer, spaces int) {
+	for i := 0; i != spaces; i += 1 {
+		buffer.WriteString(" ")
+	}
+}
+
+func (el *Configuration) writeKeyValue(buffer *bytes.Buffer, key, value string) {
+	buffer.WriteString(key)
+	buffer.WriteString(": ")
+	buffer.WriteString(value)
+	buffer.WriteString("\r\n")
+}
+
+func (el *Configuration) ToYaml(level int, element reflect.Value) (error, []byte) {
+	var buffer bytes.Buffer
+	var err = el.ToText(level, element, &buffer)
+	return err, buffer.Bytes()
+}
+
+func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.Buffer) error {
+	var tagName, tagValue string
+
+	for i := 0; i < element.NumField(); i += 1 {
+		field := element.Field(i)
+		typeField := element.Type().Field(i)
+		tag := typeField.Tag
+
+		tagName, tagValue = el.getTagData(tag)
+
+		if tagValue == "-" {
+			continue
+		}
+
+		switch field.Type().String() {
+		case "Verbosity":
+
+			if field.Interface().(Verbosity) == 0 {
+				continue
+			}
+
+			if field.Interface().(Verbosity) < 0 {
+				return errors.New("verbosity must be between 0 and 5")
+			}
+
+			if field.Interface().(Verbosity) > 5 {
+				return errors.New("verbosity must be between 0 and 5")
+			}
+
+			el.writeSpaces(buffer, level)
+			str := strconv.FormatInt(int64(field.Interface().(Verbosity)), 10)
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "LogicBoolean":
+
+			if field.Interface().(LogicBoolean) == -1 {
+				el.writeSpaces(buffer, level)
+				el.writeKeyValue(buffer, tagValue, "false")
+				continue
+			}
+
+			if field.Interface().(LogicBoolean) == 0 {
+				continue
+			}
+
+			if field.Interface().(LogicBoolean) == 1 {
+				el.writeSpaces(buffer, level)
+				el.writeKeyValue(buffer, tagValue, "true")
+				continue
+			}
+
+			return errors.New("logical must be -1 for false, 0 for not set and 1 for true")
+
+		case "string":
+			if field.Interface().(string) == "" {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKeyValue(buffer, tagValue, field.Interface().(string))
+
+		case "int":
+			if field.Interface().(int) == 0 {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := strconv.FormatInt(int64(field.Interface().(int)), 10)
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "int64":
+			if field.Interface().(int) == 0 {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := strconv.FormatInt(field.Interface().(int64), 10)
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "TimeStampFormat":
+			if field.Interface().(TimeStampFormat).String() == "" {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := field.Interface().(TimeStampFormat).String()
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "LogRotate":
+			if field.Interface().(LogRotate).String() == "" {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := field.Interface().(LogRotate).String()
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "Component":
+			fallthrough
+		case "Cloud":
+			fallthrough
+		case "ProcessManagement":
+			fallthrough
+		case "AccessControlLog":
+			fallthrough
+		case "CommandLog":
+			fallthrough
+		case "ControlLog":
+			fallthrough
+		case "FtdcLog":
+			fallthrough
+		case "GeoLog":
+			fallthrough
+		case "IndexLog":
+			fallthrough
+		case "NetworkLog":
+			fallthrough
+		case "QueryLog":
+			fallthrough
+		case "ReplicationLog":
+			fallthrough
+		case "TransactionLog":
+			fallthrough
+		case "WriteLog":
+			fallthrough
+		case "ElectionLog":
+			fallthrough
+		case "HeartbeatsLog":
+			fallthrough
+		case "InitialSyncLog":
+			fallthrough
+		case "RollbackLog":
+			fallthrough
+		case "ShardingLog":
+			fallthrough
+		case "StorageLog":
+			fallthrough
+		case "Net":
+			fallthrough
+		case "Security":
+
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		default:
+			fmt.Printf("\nhtmlTag(): %v[ %d ]: %s - %s = %v\n", tagValue, i, field.Type(), field.Interface(), tagName)
+		}
+	}
+
+	return nil
 }
 
 type Snmp struct {
@@ -413,17 +631,17 @@ type Snmp struct {
 	//The snmp.disabled setting is available only for mongod.
 	//
 	//New in version 4.0.6.
-	Disabled bool
+	Disabled LogicBoolean `yaml:"-"`
 
 	//When snmp.subagent is true, SNMP runs as a subagent. The option is incompatible with snmp.disabled set to true.
 	//
 	//The snmp.subagent setting is available only for mongod.
-	Subagent bool
+	SubAgent LogicBoolean `yaml:"-"`
 
 	//When snmp.master is true, SNMP runs as a master. The option is incompatible with snmp.disabled set to true.
 	//
 	//The snmp.master setting is available only for mongod.
-	master bool
+	master LogicBoolean `yaml:"-"`
 }
 
 type AuditLog struct {
@@ -439,7 +657,7 @@ type AuditLog struct {
 	//file		Output the audit events to the file specified in auditLog.path in the format specified in auditLog.format.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Destination string
+	Destination string `yaml:"-"`
 
 	//The format of the output file for auditing if destination is file. The auditLog.format option can have one of the following values:
 	//
@@ -449,12 +667,12 @@ type AuditLog struct {
 	//Printing audit events to a file in JSON format degrades server performance more than printing to a file in BSON format.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Format string
+	Format string `yaml:"-"`
 
 	//The output file for auditing if destination has value of file. The auditLog.path option can take either a full path name or a relative path name.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Path string
+	Path string `yaml:"-"`
 
 	//Type: string representation of a document
 	//
@@ -468,7 +686,7 @@ type AuditLog struct {
 	//To specify the audit filter in a configuration file, you must use the YAML format of the configuration file.
 	//
 	//NOTE: Available only in MongoDB Enterprise and MongoDB Atlas.
-	Filter string
+	Filter string `yaml:"-"`
 }
 
 type Sharding struct {
@@ -482,60 +700,87 @@ type Sharding struct {
 	//Setting sharding.clusterRole requires the mongod instance to be running with replication. To deploy the instance as a replica set member, use the replSetName setting and specify the name of the replica set.
 	//
 	//The sharding.clusterRole setting is available only for mongod.
-	ClusterRole string
+	ClusterRole string `yaml:"-"`
 
 	//Changed in version 3.2: Starting in 3.2, MongoDB uses false as the default.
 	//
 	//During chunk migration, a shard does not save documents migrated from the shard.
-	archiveMovedChunks bool
+	archiveMovedChunks LogicBoolean `yaml:"-"`
 }
 
 type Replication struct {
 	//The maximum size in megabytes for the replication operation log (i.e., the oplog).
 	//
-	//NOTE: Starting in MongoDB 4.0, the oplog can grow past its configured size limit to avoid deleting the majority commit point.
+	//NOTE: Starting in MongoDB 4.0, the oplog can grow past its configured size limit to
+	//      avoid deleting the majority commit point.
 	//
-	//By default, the mongod process creates an oplog based on the maximum amount of space available. For 64-bit systems, the oplog is typically 5% of available disk space.
+	//By default, the mongod process creates an oplog based on the maximum amount of space
+	//available. For 64-bit systems, the oplog is typically 5% of available disk space.
 	//
-	//Once the mongod has created the oplog for the first time, changing the replication.oplogSizeMB option will not affect the size of the oplog.
+	//Once the mongod has created the oplog for the first time, changing the
+	//replication.oplogSizeMB option will not affect the size of the oplog.
 	//
-	//To change the oplog size of a running replica set member, use the replSetResizeOplog administrative command. replSetResizeOplog enables you to resize the oplog dynamically without restarting the mongod process.
+	//To change the oplog size of a running replica set member, use the replSetResizeOplog
+	//administrative command. replSetResizeOplog enables you to resize the oplog
+	//dynamically without restarting the mongod process.
 	//
 	//See Oplog Size for more information.
 	//
 	//The replication.oplogSizeMB setting is available only for mongod.
-	OplogSizeMB int
+	OpLogSizeMB int64 `yaml:"-"`
 
-	//The name of the replica set that the mongod is part of. All hosts in the replica set must have the same set name.
+	//The name of the replica set that the mongod is part of. All hosts in the replica set
+	//must have the same set name.
 	//
-	//If your application connects to more than one replica set, each set should have a distinct name. Some drivers group replica set connections by replica set name.
+	//If your application connects to more than one replica set, each set should have a
+	//distinct name. Some drivers group replica set connections by replica set name.
 	//
 	//The replication.replSetName setting is available only for mongod.
 	//
 	//Starting in MongoDB 4.0:
 	//
-	//The setting replication.replSetName cannot be used in conjunction with storage.indexBuildRetry.
-	//For the WiredTiger storage engine, storage.journal.enabled: false cannot be used in conjunction with replication.replSetName.
-	ReplSetName string
+	//The setting replication.replSetName cannot be used in conjunction with
+	//storage.indexBuildRetry.
+	//For the WiredTiger storage engine, storage.journal.enabled: false cannot be used in
+	//conjunction with replication.replSetName.
+	ReplSetName string `yaml:"-"`
 
-	//Starting in MongoDB 3.6, MongoDB enables support for "majority" read concern by default.
+	//Starting in MongoDB 3.6, MongoDB enables support for "majority" read concern by
+	//default.
 	//
-	//You can disable read concern "majority" to prevent the storage cache pressure from immobilizing a deployment with a three-member primary-secondary-arbiter (PSA) architecture. For more information about disabling read concern "majority", see Disable Read Concern Majority.
+	//You can disable read concern "majority" to prevent the storage cache pressure from
+	//immobilizing a deployment with a three-member primary-secondary-arbiter (PSA)
+	//architecture.
+	//For more information about disabling read concern "majority", see Disable Read
+	//Concern Majority.
 	//
-	//To disable, set replication.enableMajorityReadConcern to false. replication.enableMajorityReadConcern has no effect for MongoDB versions: 4.0.0, 4.0.1, 4.0.2, 3.6.0.
+	//To disable, set replication.enableMajorityReadConcern to false.
+	//replication.enableMajorityReadConcern has no effect for MongoDB versions: 4.0.0,
+	//4.0.1, 4.0.2, 3.6.0.
 	//
-	//IMPORTANT
+	//IMPORTANT: In general, avoid disabling "majority" read concern unless necessary.
+	//However, if you have a three-member replica set with a primary-secondary-arbiter
+	//(PSA) architecture or a sharded cluster with a three-member PSA shards, disable to
+	//prevent the storage cache pressure from immobilizing the deployment.
 	//
-	//  In general, avoid disabling "majority" read concern unless necessary. However, if you have a three-member replica set with a primary-secondary-arbiter (PSA) architecture or a sharded cluster with a three-member PSA shards, disable to prevent the storage cache pressure from immobilizing the deployment.
+	//    Disabling "majority" read concern affects support for transactions on sharded
+	//    clusters. Specifically:
 	//
-	//  Disabling "majority" read concern affects support for transactions on sharded clusters. Specifically:
+	//    A transaction cannot use read concern "snapshot" if the transaction involves a
+	//    shard that has disabled read concern “majority”.
 	//
-	//  A transaction cannot use read concern "snapshot" if the transaction involves a shard that has disabled read concern “majority”.
-	//  A transaction that writes to multiple shards errors if any of the transaction’s read or write operations involves a shard that has disabled read concern "majority".
-	//  However, it does not affect transactions on replica sets. For transactions on replica sets, you can specify read concern "majority" (or "snapshot" or "local" ) for multi-document transactions even if read concern "majority" is disabled.
+	//    A transaction that writes to multiple shards errors if any of the transaction’s
+	//    read or write operations involves a shard that has disabled read concern
+	//    "majority".
 	//
-	//  Disabling "majority" read concern disables support for Change Streams for MongoDB 4.0 and earlier. For MongoDB 4.2+, disabling read concern "majority" has no effect on change streams availability.
-	EnableMajorityReadConcern bool
+	//    However, it does not affect transactions on replica sets. For transactions on
+	//    replica sets, you can specify read concern "majority" (or "snapshot" or "local" )
+	//    for multi-document transactions even if read concern "majority" is disabled.
+	//
+	//    Disabling "majority" read concern disables support for Change Streams for MongoDB
+	//    4.0 and earlier. For MongoDB 4.2+, disabling read concern "majority" has no
+	//    effect on change streams availability.
+	EnableMajorityReadConcern LogicBoolean
 }
 
 type OperationProfiling struct {
@@ -550,7 +795,7 @@ type OperationProfiling struct {
 	//IMPORTANT: Profiling can impact performance and shares settings with the system log. Carefully consider any performance and security implications before configuring and enabling the profiler on a production deployment.
 	//
 	//See Profiler Overhead for more information on potential performance degradation.
-	Mode string
+	Mode string `yaml:"-"`
 
 	//Default: 100
 	//
@@ -564,7 +809,7 @@ type OperationProfiling struct {
 	//
 	//For mongod instances, the setting affects both the diagnostic log and, if enabled, the profiler.
 	//For mongos instances, the setting affects the diagnostic log only and not the profiler since profiling is not available on mongos.
-	SlowOpThresholdMs int
+	SlowOpThresholdMs int `yaml:"-"`
 
 	//Default: 1.0
 	//
@@ -576,7 +821,7 @@ type OperationProfiling struct {
 	//
 	//For mongod instances, the setting affects both the diagnostic log and, if enabled, the profiler.
 	//For mongos instances, the setting affects the diagnostic log only and not the profiler since profiling is not available on mongos.
-	SlowOpSampleRate float64
+	SlowOpSampleRate float64 `yaml:"-"`
 }
 
 type Storage struct {
@@ -597,7 +842,7 @@ type Storage struct {
 	//Ubuntu and Debian				apt						/var/lib/mongodb
 	//macOS							brew					/usr/local/var/mongodb
 	//The Linux package init scripts do not expect storage.dbPath to change from the defaults. If you use the Linux packages and change storage.dbPath, you will have to use your own init scripts and disable the built-in scripts.
-	DbPath string
+	DbPath string `yaml:"-"`
 
 	//Default: true
 	//
@@ -608,9 +853,9 @@ type Storage struct {
 	//The storage.indexBuildRetry setting is available only for mongod.
 	//
 	//Not available for mongod instances that use the in-memory storage engine.
-	IndexBuildRetry bool
+	IndexBuildRetry LogicBoolean `yaml:"-"`
 
-	Journal Journal
+	Journal Journal `yaml:"-"`
 
 	//Default: false
 	//
@@ -636,7 +881,7 @@ type Storage struct {
 	//5.Update remaining secondaries in the same fashion.
 	//6.Step down the primary, and update the stepped-down member in the same fashion.
 	//todo: make true
-	DirectoryPerDB bool
+	DirectoryPerDB LogicBoolean `yaml:"-"`
 
 	//Default: 60
 	//
@@ -653,7 +898,7 @@ type Storage struct {
 	//The storage.syncPeriodSecs setting is available only for mongod.
 	//
 	//Not available for mongod instances that use the in-memory storage engine.
-	SyncPeriodSecs int
+	SyncPeriodSecs int `yaml:"-"`
 
 	//Default: wiredTiger
 	//
@@ -669,14 +914,14 @@ type Storage struct {
 	//New in version 3.2: Available in MongoDB Enterprise only.
 	//
 	//If you attempt to start a mongod with a storage.dbPath that contains data files produced by a storage engine other than the one specified by storage.engine, mongod will refuse to start.
-	Engine string
+	Engine string `yaml:"-"`
 
-	WiredTiger WiredTiger
-	Inmemory   Inmemory
+	WiredTiger WiredTiger `yaml:"-"`
+	Inmemory   Inmemory   `yaml:"-"`
 }
 
 type Inmemory struct {
-	EngineConfig InmemoryEngineConfig
+	EngineConfig InmemoryEngineConfig `yaml:"-"`
 }
 
 type InmemoryEngineConfig struct {
@@ -689,12 +934,12 @@ type InmemoryEngineConfig struct {
 	//By default, the in-memory storage engine uses 50% of physical RAM minus 1 GB.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	InMemorySizeGB float64
+	InMemorySizeGB float64 `yaml:"-"`
 }
 
 type WiredTiger struct {
-	EngineConfig WiredTigerEngineConfig
-	IndexConfig  IndexConfig
+	EngineConfig WiredTigerEngineConfig `yaml:"-"`
+	IndexConfig  IndexConfig            `yaml:"-"`
 }
 
 type IndexConfig struct {
@@ -705,7 +950,7 @@ type IndexConfig struct {
 	//Specify true for storage.wiredTiger.indexConfig.prefixCompression to enable prefix compression for index data, or false to disable prefix compression for index data.
 	//
 	//The storage.wiredTiger.indexConfig.prefixCompression setting affects all indexes created. If you change the value of storage.wiredTiger.indexConfig.prefixCompression on an existing MongoDB deployment, all new indexes will use prefix compression. Existing indexes are not affected.
-	PrefixCompression bool
+	PrefixCompression LogicBoolean `yaml:"-"`
 }
 
 type WiredTigerEngineConfig struct {
@@ -740,7 +985,7 @@ type WiredTigerEngineConfig struct {
 	//The default WiredTiger internal cache size value assumes that there is a single mongod instance per machine. If a single machine contains multiple MongoDB instances, then you should decrease the setting to accommodate the other mongod instances.
 	//
 	//If you run mongod in a container (e.g. lxc, cgroups, Docker, etc.) that does not have access to all of the RAM available in a system, you must set storage.wiredTiger.engineConfig.cacheSizeGB to a value less than the amount of RAM available in the container. The exact amount depends on the other processes running in the container. See memLimitMB.
-	CacheSizeGB float64
+	CacheSizeGB float64 `yaml:"-"`
 
 	//Default: snappy
 	//
@@ -755,14 +1000,14 @@ type WiredTigerEngineConfig struct {
 	//			http://www.zlib.net/
 	//zstd 		(Available starting in MongoDB 4.2) A data compression library that provides higher compression rates and lower CPU usage when compared to zlib.
 	//			http://www.zlib.net/
-	JournalCompressor string
+	JournalCompressor string `yaml:"-"`
 
 	//Default: false
 	//
 	//When storage.wiredTiger.engineConfig.directoryForIndexes is true, mongod stores indexes and collections in separate subdirectories under the data (i.e. storage.dbPath) directory. Specifically, mongod stores the indexes in a subdirectory named index and the collection data in a subdirectory named collection.
 	//
 	//By using a symbolic link, you can specify a different location for the indexes. Specifically, when mongod instance is not running, move the index subdirectory to the destination and create a symbolic link named index under the data directory to the new destination.
-	DirectoryForIndexes bool
+	DirectoryForIndexes LogicBoolean `yaml:"-"`
 
 	//Specifies the maximum size (in GB) for the “lookaside (or cache overflow) table” file WiredTigerLAS.wt.
 	//
@@ -774,7 +1019,7 @@ type WiredTigerEngineConfig struct {
 	//To change the maximum size during runtime, use the wiredTigerMaxCacheOverflowSizeGB parameter.
 	//
 	//Available starting in MongoDB 4.2.1 (and 4.0.12)
-	MaxCacheOverflowFileSizeGB float64
+	MaxCacheOverflowFileSizeGB float64 `yaml:"-"`
 
 	//Default: snappy
 	//
@@ -787,7 +1032,7 @@ type WiredTigerEngineConfig struct {
 	//zlib
 	//zstd (Available starting MongoDB 4.2)
 	//storage.wiredTiger.collectionConfig.blockCompressor affects all collections created. If you change the value of storage.wiredTiger.collectionConfig.blockCompressor on an existing MongoDB deployment, all new collections will use the specified compressor. Existing collections will continue to use the compressor specified when they were created, or the default compressor at that time.
-	BlockCompressor string
+	BlockCompressor string `yaml:"-"`
 }
 
 type Journal struct {
@@ -800,7 +1045,7 @@ type Journal struct {
 	//Not available for mongod instances that use the in-memory storage engine.
 	//
 	//Starting in MongoDB 4.0, you cannot specify --nojournal option or storage.journal.enabled: false for replica set members that use the WiredTiger storage engine.
-	Enabled bool
+	Enabled LogicBoolean `yaml:"-"`
 
 	//Default: 100
 	//
@@ -813,7 +1058,7 @@ type Journal struct {
 	//Not available for mongod instances that use the in-memory storage engine.
 	//
 	//NOTE: Known Issue in 4.2.0: The storage.journal.commitIntervalMs is missing in 4.2.0.
-	CommitIntervalMs int
+	CommitIntervalMs int `yaml:"-"`
 }
 
 type Security struct {
@@ -825,7 +1070,7 @@ type Security struct {
 	//multiple key strings (each string must be enclosed in quotes), or
 	//sequence of key strings.
 	//The YAML format is compatible with the existing single-key keyfiles that use the text file format.
-	KeyFile string
+	KeyFile string `yaml:"-"`
 
 	//Default: keyFile
 	//
@@ -841,7 +1086,7 @@ type Security struct {
 	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterAuthMode string
+	ClusterAuthMode string `yaml:"-"`
 
 	//Default: disabled
 	//
@@ -855,7 +1100,7 @@ type Security struct {
 	//See Role-Based Access Control for more information.
 	//
 	//The security.authorization setting is available only for mongod.
-	Authorization string
+	Authorization string `yaml:"-"`
 
 	//Default: false
 	//
@@ -868,12 +1113,12 @@ type Security struct {
 	//NOTE
 	//
 	//A mongod or mongos running with internal authentication and without security.transitionToAuth requires clients to connect using user access controls. Update clients to connect to the mongod or mongos using the appropriate user prior to restarting mongod or mongos without security.transitionToAuth.
-	TransitionToAuth bool
+	TransitionToAuth LogicBoolean `yaml:"-"`
 
 	//Default: true
 	//
 	//Enables or disables the server-side JavaScript execution. When disabled, you cannot use operations that perform server-side execution of JavaScript code, such as the $where query operator, mapReduce command and the db.collection.mapReduce() method.
-	JavascriptEnabled bool
+	JavascriptEnabled LogicBoolean `yaml:"-"`
 
 	//New in version 3.4: Available in MongoDB Enterprise only.
 	//
@@ -886,7 +1131,7 @@ type Security struct {
 	//Diagnostics on a mongod or mongos running with security.redactClientLogData may be more difficult due to the lack of data related to a log event. See the process logging manual page for an example of the effect of security.redactClientLogData on log output.
 	//
 	//On a running mongod or mongos, use setParameter with the redactClientLogData parameter to configure this setting.
-	RedactClientLogData bool
+	RedactClientLogData LogicBoolean `yaml:"-"`
 
 	//New in version 3.6.
 	//
@@ -918,7 +1163,7 @@ type Security struct {
 	//      clientCertificatePassword: <string>
 	//      clientCertificateSelector: <string>
 	//      serverCAFile: <string>
-	ClusterIpSourceWhitelist []string
+	ClusterIpSourceWhitelist []string `yaml:"-"`
 
 	//Default: false
 	//
@@ -927,7 +1172,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EnableEncryption bool
+	EnableEncryption LogicBoolean `yaml:"-"`
 
 	//Default: AES256-CBC
 	//
@@ -947,7 +1192,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EncryptionCipherMode string
+	EncryptionCipherMode string `yaml:"-"`
 
 	//New in version 3.2.
 	//
@@ -958,10 +1203,10 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EncryptionKeyFile string
-	Kmip              Kmip
-	Sasl              Sasl
-	Ldap              Ldap
+	EncryptionKeyFile string `yaml:"-"`
+	Kmip              Kmip   `yaml:"-"`
+	Sasl              Sasl   `yaml:"-"`
+	Ldap              Ldap   `yaml:"-"`
 }
 
 type Bind struct {
@@ -981,7 +1226,7 @@ type Bind struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//NOTE: Windows MongoDB deployments can use bindWithOSDefaults instead of queryUser and queryPassword. You cannot specify both queryUser and bindWithOSDefaults at the same time.
-	QueryUser string
+	QueryUser string `yaml:"-"`
 
 	//New in version 3.4: Available in MongoDB Enterprise only.
 	//
@@ -992,7 +1237,7 @@ type Bind struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//NOTE: Windows MongoDB deployments can use bindWithOSDefaults instead of queryPassword and queryPassword. You cannot specify both queryPassword and bindWithOSDefaults at the same time.
-	QueryPassword string
+	QueryPassword string `yaml:"-"`
 
 	//Default: false
 	//
@@ -1006,7 +1251,7 @@ type Bind struct {
 	//Using an LDAP query for username transformation.
 	//The LDAP server disallows anonymous binds
 	//Use useOSDefaults to replace queryUser and queryPassword.
-	UseOSDefaults bool
+	UseOSDefaults LogicBoolean `yaml:"-"`
 
 	//Default: simple
 	//
@@ -1019,7 +1264,7 @@ type Bind struct {
 	//simple - mongod or mongos uses simple authentication.
 	//sasl - mongod or mongos uses SASL protocol for authentication
 	//If you specify sasl, you can configure the available SASL mechanisms using security.ldap.bind.saslMechanisms. mongod or mongos defaults to using DIGEST-MD5 mechanism.
-	Method string
+	Method string `yaml:"-"`
 
 	//Default: DIGEST-MD5
 	//
@@ -1048,7 +1293,7 @@ type Bind struct {
 	//
 	//For Linux, please see the Cyrus SASL documentation.
 	//For Windows, please see the Windows SASL documentation.
-	SaslMechanisms string
+	SaslMechanisms string `yaml:"-"`
 }
 
 type Ldap struct {
@@ -1061,8 +1306,8 @@ type Ldap struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//If unset, mongod or mongos cannot use LDAP authentication or authorization.
-	Servers string
-	Bind    Bind
+	Servers string `yaml:"-"`
+	Bind    Bind   `yaml:"-"`
 
 	//Default: tls
 	//
@@ -1077,7 +1322,7 @@ type Ldap struct {
 	//Set transportSecurity to none to disable TLS/SSL between mongod or mongos and the LDAP server.
 	//
 	//WARNING: Setting transportSecurity to none transmits plaintext information and possibly credentials between mongod or mongos and the LDAP server.
-	transportSecurity string
+	transportSecurity string `yaml:"-"`
 
 	//Default: 10000
 	//
@@ -1088,7 +1333,7 @@ type Ldap struct {
 	//Increasing the value of timeoutMS may prevent connection failure between the MongoDB server and the LDAP server, if the source of the failure is a connection timeout. Decreasing the value of timeoutMS reduces the time MongoDB waits for a response from the LDAP server.
 	//
 	//This setting can be configured on a running mongod or mongos using setParameter.
-	TimeoutMS int
+	TimeoutMS int `yaml:"-"`
 
 	//New in version 3.4: Available in MongoDB Enterprise only.
 	//
@@ -1151,8 +1396,8 @@ type Ldap struct {
 	//If userToDNMapping is unset, mongod or mongos applies no transformations to the username when attempting to authenticate or authorize a user against the LDAP server.
 	//
 	//This setting can be configured on a running mongod or mongos using the setParameter database command.
-	UserToDNMapping string
-	Authz           Authz
+	UserToDNMapping string `yaml:"-"`
+	Authz           Authz  `yaml:"-"`
 }
 
 type Authz struct {
@@ -1192,7 +1437,7 @@ type Authz struct {
 	//NOTE
 	//
 	//An explanation of RFC4515, RFC4516 or LDAP queries is out of scope for the MongoDB Documentation. Please review the RFC directly or use your preferred LDAP resource.
-	QueryTemplate string
+	QueryTemplate string `yaml:"-"`
 
 	//Default: true
 	//
@@ -1202,14 +1447,14 @@ type Authz struct {
 	//
 	//If true, the mongod or mongos instance performs the availability check and only continues to start up if the LDAP server is available.
 	//If false, the mongod or mongos instance skips the availability check; i.e. the instance starts up even if the LDAP server is unavailable.
-	ValidateLDAPServerConfig bool
+	ValidateLDAPServerConfig LogicBoolean `yaml:"-"`
 }
 
 type Sasl struct {
 	//A fully qualified server domain name for the purpose of configuring SASL and Kerberos authentication. The SASL hostname overrides the hostname only for the configuration of SASL and Kerberos.
 	//
 	//For mongo shell and other MongoDB tools to connect to the new hostName, see the gssapiHostName option in the mongo shell and other tools.
-	HostName string
+	HostName string `yaml:"-"`
 
 	//Registered name of the service using SASL. This option allows you to override the default Kerberos service name component of the Kerberos principal name, on a per-instance basis. If unspecified, the default value is mongodb.
 	//
@@ -1218,10 +1463,10 @@ type Sasl struct {
 	//This option is available only in MongoDB Enterprise.
 	//
 	//IMPORTANT: Ensure that your driver supports alternate service names. For mongo shell and other MongoDB tools to connect to the new serviceName, see the gssapiServiceName option.
-	ServiceName string
+	ServiceName string `yaml:"-"`
 
 	//The path to the UNIX domain socket file for saslauthd.
-	SaslauthdSocketPath string
+	SaslauthdSocketPath string `yaml:"-"`
 }
 
 type Kmip struct {
@@ -1236,7 +1481,7 @@ type Kmip struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	KeyIdentifier string
+	KeyIdentifier string `yaml:"-"`
 
 	//Default: false
 	//
@@ -1249,14 +1494,14 @@ type Kmip struct {
 	//Available in MongoDB Enterprise only.
 	//
 	//SEE ALSO: KMIP Master Key Rotation https://docs.mongodb.com/manual/tutorial/rotate-encryption-key/#kmip-master-key-rotation
-	RotateMasterKey bool
+	RotateMasterKey LogicBoolean `yaml:"-"`
 
 	//New in version 3.2.
 	//
 	//Hostname or IP address of key management solution running a KMIP server. Requires security.enableEncryption to be true.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ServerName string
+	ServerName string `yaml:"-"`
 
 	//Default: 5696
 	//
@@ -1265,7 +1510,7 @@ type Kmip struct {
 	//Port number the KMIP server is listening on. Requires that a security.kmip.serverName be provided. Requires security.enableEncryption to be true.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	Port int
+	Port int `yaml:"-"`
 
 	//New in version 3.2.
 	//
@@ -1276,14 +1521,14 @@ type Kmip struct {
 	//Starting in 4.0, on macOS or Windows, you can use a certificate from the operating system’s secure store instead of a PEM key file. See security.kmip.clientCertificateSelector.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ClientCertificateFile string
+	ClientCertificateFile string `yaml:"-"`
 
 	//New in version 3.2.
 	//
 	//The password to decrypt the client certificate (i.e. security.kmip.clientCertificateFile), used to authenticate MongoDB to the KMIP server. Use the option only if the certificate is encrypted.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ClientCertificatePassword string
+	ClientCertificatePassword string `yaml:"-"`
 
 	//New in version 4.0: Available on Windows and macOS as an alternative to security.kmip.clientCertificateFile.
 	//
@@ -1301,7 +1546,7 @@ type Kmip struct {
 	//The thumbprint is sometimes referred to as a fingerprint.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ClientCertificateSelector string
+	ClientCertificateSelector string `yaml:"-"`
 
 	//New in version 3.2.
 	//
@@ -1312,7 +1557,7 @@ type Kmip struct {
 	//Starting in 4.0, on macOS or Windows, you can use a certificate from the operating system’s secure store instead of a PEM key file. See security.kmip.clientCertificateSelector. When using the secure store, you do not need to, but can, also specify the security.kmip.serverCAFile.
 	//
 	//ENTERPRISE FEATURE: Available in MongoDB Enterprise only.
-	ServerCAFile string
+	ServerCAFile string `yaml:"-"`
 }
 
 type Net struct {
@@ -1322,7 +1567,7 @@ type Net struct {
 	//27018 if mongod is a shard member
 	//27019 if mongod is a config server member
 	//The TCP port on which the MongoDB instance listens for client connections.
-	Port NetPort
+	Port NetPort `yaml:"-"`
 
 	//Default: localhost
 	//
@@ -1354,7 +1599,7 @@ type Net struct {
 	//
 	//NOTE: net.bindIp and net.bindIpAll are mutually exclusive. That is, you can specify one or the other, but not both.
 	//		The command-line option --bind_ip overrides the configuration file setting net.bindIp.
-	BindIp []string
+	BindIp []string `yaml:"-"`
 
 	//Default: false
 	//
@@ -1371,7 +1616,7 @@ type Net struct {
 	//Alternatively, set net.bindIp to ::,0.0.0.0 or, starting in MongoDB 4.2, to an asterisk "*" (enclose the asterisk in quotes to distinguish from YAML alias nodes) to bind to all IP addresses.
 	//
 	//NOTE: net.bindIp and net.bindIpAll are mutually exclusive. Specifying both options causes mongos or mongod to throw an error and terminate.
-	BindIpAll bool
+	BindIpAll LogicBoolean `yaml:"-"`
 
 	//Default: 65536
 	//
@@ -1384,14 +1629,14 @@ type Net struct {
 	//In this case, set maxIncomingConnections to a value slightly higher than the maximum number of connections that the client creates, or the maximum size of the connection pool.
 	//
 	//This setting prevents the mongos from causing connection spikes on the individual shards. Spikes like these may disrupt the operation and memory allocation of the sharded cluster.
-	MaxIncomingConnections int
+	MaxIncomingConnections int `yaml:"-"`
 
 	//Default: true
 	//
 	//When true, the mongod or mongos instance validates all requests from clients upon receipt to prevent clients from inserting malformed or invalid BSON into a MongoDB database.
 	//
 	//For objects with a high degree of sub-document nesting, net.wireObjectCheck can have a small impact on performance.
-	WireObjectCheck bool
+	WireObjectCheck LogicBoolean `yaml:"-"`
 
 	//Default: false
 	//
@@ -1401,10 +1646,10 @@ type Net struct {
 	//
 	//Configure net.bindIp with one or more IPv6 addresses or hostnames that resolve to IPv6 addresses, or
 	//Set net.bindIpAll to true.
-	Ipv6 bool
+	Ipv6 LogicBoolean `yaml:"-"`
 
-	UnixDomainSocket UnixDomainSocket
-	Compression      Compression
+	UnixDomainSocket UnixDomainSocket `yaml:"-"`
+	Compression      Compression      `yaml:"-"`
 
 	//Default: synchronous
 	//
@@ -1415,7 +1660,7 @@ type Net struct {
 	//Value	Description
 	//synchronous	The mongos or mongod uses synchronous networking and manages its networking thread pool on a per connection basis. Previous versions of MongoDB managed threads in this way.
 	//adaptive	The mongos or mongod uses the new experimental asynchronous networking mode with an adaptive thread pool which manages threads on a per request basis. This mode should have more consistent performance and use less resources when there are more inactive connections than database requests.
-	ServiceExecutor string
+	ServiceExecutor string `yaml:"-"`
 }
 
 type Compression struct {
@@ -1444,7 +1689,7 @@ type Compression struct {
 	//If you specify multiple compressors, then the order in which you list the compressors matter as well as the communication initiator. For example, if a mongo shell specifies the following network compressors zlib,snappy and the mongod specifies snappy,zlib, messages between mongo shell and mongod uses zlib.
 	//
 	//If the parties do not share at least one common compressor, messages between the parties are uncompressed. For example, if a mongo shell specifies the network compressor zlib and mongod specifies snappy, messages between mongo shell and mongod are not compressed.
-	Compressors string
+	Compressors string `yaml:"-"`
 }
 
 type Tls struct {
@@ -1462,7 +1707,7 @@ type Tls struct {
 	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	Mode string
+	Mode string `yaml:"-"`
 
 	//New in version 4.2: The .pem file that contains both the TLS certificate and key.
 	//
@@ -1475,7 +1720,7 @@ type Tls struct {
 	//IMPORTANT: For Windows only, MongoDB 4.0 and later do not support encrypted PEM files. The mongod fails to start if it encounters an encrypted PEM file. To securely store and access a certificate for use with TLS on Windows, use net.tls.certificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CertificateKeyFile string
+	CertificateKeyFile string `yaml:"-"`
 
 	//New in version 4.2: The password to de-crypt the certificate-key file (i.e. certificateKeyFile). Use the net.tls.certificateKeyPassword option only if the certificate-key file is encrypted. In all cases, the mongos or mongod will redact the password from all logging and reporting output.
 	//
@@ -1485,7 +1730,7 @@ type Tls struct {
 	//On macOS, if the private key in the PEM file is encrypted, you must explicitly specify the net.tls.certificateKeyFilePassword option. Alternatively, you can use a certificate from the secure system store (see net.tls.certificateSelector) instead of a PEM key file or use an unencrypted PEM file.
 	//On Windows, MongoDB does not support encrypted certificates. The mongod fails if it encounters an encrypted PEM file. Use net.tls.certificateSelector instead.
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CertificateKeyFilePassword string
+	CertificateKeyFilePassword string `yaml:"-"`
 
 	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.certificateKeyFile.
 	//
@@ -1507,7 +1752,7 @@ type Tls struct {
 	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified TLS certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the TLS certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate
 	//
 	//For example, if the TLS certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the TLS certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
-	CertificateSelector string
+	CertificateSelector string `yaml:"-"`
 
 	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.clusterFile.
 	//
@@ -1527,7 +1772,7 @@ type Tls struct {
 	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified cluster certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the cluster certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate.
 	//
 	//For example, if the cluster certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the cluster certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
-	ClusterCertificateSelector string
+	ClusterCertificateSelector string `yaml:"-"`
 
 	//New in version 4.2: The .pem file that contains the x.509 certificate-key file for membership authentication for the cluster or replica set.
 	//
@@ -1540,7 +1785,7 @@ type Tls struct {
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
 	//
 	//IMPORTANT: For Windows only, MongoDB 4.0 and later do not support encrypted PEM files. The mongod fails to start if it encounters an encrypted PEM file. To securely store and access a certificate for use with membership authentication on Windows, use net.tls.clusterCertificateSelector.
-	ClusterFile string
+	ClusterFile string `yaml:"-"`
 
 	//New in version 4.2: The password to de-crypt the x.509 certificate-key file specified with --sslClusterFile. Use the net.tls.clusterPassword option only if the certificate-key file is encrypted. In all cases, the mongos or mongod will redact the password from all logging and reporting output.
 	//
@@ -1550,14 +1795,14 @@ type Tls struct {
 	//On macOS, if the private key in the x.509 file is encrypted, you must explicitly specify the net.tls.clusterPassword option. Alternatively, you can either use a certificate from the secure system store (see net.tls.clusterCertificateSelector) instead of a cluster PEM file or use an unencrypted PEM file.
 	//On Windows, MongoDB does not support encrypted certificates. The mongod fails if it encounters an encrypted PEM file. Use net.tls.clusterCertificateSelector.
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterPassword string
+	ClusterPassword string `yaml:"-"`
 
 	//New in version 4.2: The .pem file that contains the root certificate chain from the Certificate Authority. Specify the file name of the .pem file using relative or absolute paths.
 	//
 	//Windows/macOS Only: If using net.tls.certificateSelector and/or net.tls.clusterCertificateSelector, do not use net.tls.CAFile to specify the root and intermediate CA certificates. Store all CA certificates required to validate the full trust chain of the net.tls.certificateSelector and/or net.tls.clusterCertificateSelector certificates in the secure certificate store.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CAFile string
+	CAFile string `yaml:"-"`
 
 	//New in version 4.2: The .pem file that contains the root certificate chain from the Certificate Authority used to validate the certificate presented by a client establishing a connection. Specify the file name of the .pem file using relative or absolute paths. net.tls.clusterCAFile requires that net.tls.CAFile is set.
 	//
@@ -1570,7 +1815,7 @@ type Tls struct {
 	//Windows/macOS Only: If using net.tls.certificateSelector and/or net.tls.clusterCertificateSelector, do not use net.tls.clusterCAFile to specify the root and intermediate CA certificates. Store all CA certificates required to validate the full trust chain of the net.tls.certificateSelector and/or net.tls.clusterCertificateSelector certificates in the secure certificate store.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterCAFile string
+	ClusterCAFile string `yaml:"-"`
 
 	//New in version 4.2.
 	//
@@ -1579,7 +1824,7 @@ type Tls struct {
 	//NOTE: Starting in MongoDB 4.0, you cannot specify net.tls.CRLFile on macOS. Use net.tls.certificateSelector instead.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	CRLFile string
+	CRLFile string `yaml:"-"`
 
 	//New in version 4.2.
 	//
@@ -1590,7 +1835,7 @@ type Tls struct {
 	//Use the net.tls.allowConnectionsWithoutCertificates option if you have a mixed deployment that includes clients that do not or cannot present certificates to the mongos or mongod.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	AllowConnectionsWithoutCertificates bool
+	AllowConnectionsWithoutCertificates LogicBoolean `yaml:"-"`
 
 	//New in version 4.2.
 	//
@@ -1603,14 +1848,14 @@ type Tls struct {
 	//When using the net.tls.allowInvalidCertificates setting, MongoDB logs a warning regarding the use of the invalid certificate.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	AllowInvalidCertificates bool
+	AllowInvalidCertificates LogicBoolean `yaml:"-"`
 
 	//Default: false
 	//
 	//When net.tls.allowInvalidHostnames is true, MongoDB disables the validation of the hostnames in TLS certificates, allowing mongod to connect to MongoDB instances if the hostname their certificates do not match the specified hostname.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	AllowInvalidHostnames bool
+	AllowInvalidHostnames LogicBoolean `yaml:"-"`
 
 	//New in version 4.2.
 	//
@@ -1627,14 +1872,14 @@ type Tls struct {
 	//Members of replica sets and sharded clusters must speak at least one protocol in common.
 	//
 	//SEE ALSO: Disallow Protocols https://docs.mongodb.com/manual/tutorial/configure-ssl/#ssl-disallow-protocols
-	DisabledProtocols string
+	DisabledProtocols string `yaml:"-"`
 
 	//New in version 4.2.
 	//
 	//Enable or disable the use of the FIPS mode of the TLS library for the mongos or mongod. Your system must have a FIPS compliant library to use the net.tls.FIPSMode option.
 	//
 	//NOTE: FIPS-compatible TLS/SSL is available only in MongoDB Enterprise. See Configure MongoDB for FIPS for more information.
-	FIPSMode bool
+	FIPSMode LogicBoolean `yaml:"-"`
 }
 
 type Free struct {
@@ -1654,22 +1899,22 @@ type Free struct {
 	//Once enabled, the free monitoring state remains enabled until explicitly disabled. That is, you do not need to re-enable each time you start the server.
 	//
 	//For the corresponding command-line option, see --enableFreeMonitoring.
-	State FreeState
+	State FreeState `yaml:"-"`
 
 	//New in version 4.0: Available for MongoDB Community Edition.
 	//
 	//Optional tag to describe environment context. The tag can be sent as part of the free MongoDB Cloud monitoring registration at start up.
 	//
 	//For the corresponding command-line option, see --freeMonitoringTag.
-	Tags string
+	Tags string `yaml:"-"`
 }
 
 type Monitoring struct {
-	Free Free
+	Free Free `yaml:"-"`
 }
 
 type Cloud struct {
-	Monitoring Monitoring
+	Monitoring Monitoring `yaml:"-"`
 }
 
 type UnixDomainSocket struct {
@@ -1686,7 +1931,7 @@ type UnixDomainSocket struct {
 	//net.bindIp is not set
 	//net.bindIp does not specify localhost or its associated IP address
 	//mongos or mongod installed from official .deb and .rpm packages have the bind_ip configuration set to 127.0.0.1 by default.
-	Enabled bool
+	Enabled LogicBoolean `yaml:"-"`
 
 	//Default: /tmp
 	//
@@ -1698,18 +1943,14 @@ type UnixDomainSocket struct {
 	//--nounixsocket is set
 	//net.bindIp is not set
 	//net.bindIp does not specify localhost or its associated IP address
-	PathPrefix bool
+	PathPrefix LogicBoolean `yaml:"-"`
 
 	//Default: 0700
 	//
 	//Sets the permission for the UNIX domain socket file.
 	//
 	//net.unixDomainSocket.filePermissions applies only to Unix-based systems.
-	FilePermissions int
+	FilePermissions int `yaml:"-"`
 
-	Tls Tls
-}
-
-func main() {
-	fmt.Println("Hello, playground")
+	Tls Tls `yaml:"-"`
 }
