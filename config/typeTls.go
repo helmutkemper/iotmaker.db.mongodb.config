@@ -15,7 +15,7 @@ type Tls struct {
 	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	Mode string `yaml:"mode"`
+	Mode Mode `yaml:"mode"`
 
 	//New in version 4.2: The .pem file that contains both the TLS certificate and key.
 	//
@@ -60,6 +60,7 @@ type Tls struct {
 	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified TLS certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the TLS certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate
 	//
 	//For example, if the TLS certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the TLS certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
+	//todo:melhorar
 	CertificateSelector string `yaml:"certificateSelector"`
 
 	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.clusterFile.
@@ -80,6 +81,7 @@ type Tls struct {
 	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified cluster certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the cluster certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate.
 	//
 	//For example, if the cluster certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the cluster certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
+	//todo:melhorar
 	ClusterCertificateSelector string `yaml:"clusterCertificateSelector"`
 
 	//New in version 4.2: The .pem file that contains the x.509 certificate-key file for membership authentication for the cluster or replica set.
@@ -180,7 +182,7 @@ type Tls struct {
 	//Members of replica sets and sharded clusters must speak at least one protocol in common.
 	//
 	//SEE ALSO: Disallow Protocols https://docs.mongodb.com/manual/tutorial/configure-ssl/#ssl-disallow-protocols
-	DisabledProtocols string `yaml:"disabledProtocols"`
+	DisabledProtocols []DisabledProtocol `yaml:"disabledProtocols"`
 
 	//New in version 4.2.
 	//

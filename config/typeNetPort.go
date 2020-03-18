@@ -3,7 +3,7 @@ package iotmaker_db_mongodb_config
 type NetPort int
 
 const (
-	KNetPortMongodOrMongosInstance      = 27017
-	KNetPortMongodIsAShardMember        = 27018
-	KNetPortMongodIsAConfigServerMember = 27019
+	KNetPortMongodOrMongosInstance      NetPort = 27017
+	KNetPortMongodIsAShardMember        NetPort = 27018
+	KNetPortMongodIsAConfigServerMember NetPort = 27019
 )

@@ -15,17 +15,17 @@ type Security struct {
 	//
 	//The authentication mode used for cluster authentication. If you use internal x.509 authentication, specify so here. This option can have one of the following values:
 	//
-	//Value	Description
-	//keyFile	Use a keyfile for authentication. Accept only keyfiles.
+	//Value       Description
+	//keyFile	    Use a keyfile for authentication. Accept only keyfiles.
 	//sendKeyFile	For rolling upgrade purposes. Send a keyfile for authentication but can accept both keyfiles and x.509 certificates.
-	//sendX509	For rolling upgrade purposes. Send the x.509 certificate for authentication but can accept both keyfiles and x.509 certificates.
-	//x509	Recommended. Send the x.509 certificate for authentication and accept only x.509 certificates.
+	//sendX509	  For rolling upgrade purposes. Send the x.509 certificate for authentication but can accept both keyfiles and x.509 certificates.
+	//x509	      Recommended. Send the x.509 certificate for authentication and accept only x.509 certificates.
 	//If --tlsCAFile or tls.CAFile is not specified and you are not using x.509 authentication, the system-wide CA certificate store will be used when connecting to an TLS-enabled server.
 	//
 	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
 	//
 	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
-	ClusterAuthMode string `yaml:"clusterAuthMode"`
+	ClusterAuthMode ClusterAuthMode `yaml:"clusterAuthMode"`
 
 	//Default: disabled
 	//
@@ -39,7 +39,7 @@ type Security struct {
 	//See Role-Based Access Control for more information.
 	//
 	//The security.authorization setting is available only for mongod.
-	Authorization string `yaml:"authorization"`
+	Authorization Authorization `yaml:"authorization"`
 
 	//Default: false
 	//
@@ -87,21 +87,6 @@ type Security struct {
 	//    - ::1
 	//
 	//IMPORTANT: Ensure security.clusterIpSourceWhitelist includes the IP address or CIDR ranges that include the IP address of each replica set member or mongos in the deployment to ensure healthy communication between cluster components.
-	//
-	//Key Management Configuration Options
-	//security:
-	//   enableEncryption: <boolean>
-	//   encryptionCipherMode: <string>
-	//   encryptionKeyFile: <string>
-	//   kmip:
-	//      keyIdentifier: <string>
-	//      rotateMasterKey: <boolean>
-	//      serverName: <string>
-	//      port: <string>
-	//      clientCertificateFile: <string>
-	//      clientCertificatePassword: <string>
-	//      clientCertificateSelector: <string>
-	//      serverCAFile: <string>
 	ClusterIpSourceWhitelist []string `yaml:"clusterIpSourceWhitelist"`
 
 	Sasl Sasl `yaml:"sasl"`
