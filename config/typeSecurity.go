@@ -118,7 +118,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EncryptionCipherMode string `yaml:"encryptionCipherMode"`
+	EncryptionCipherMode EncryptionCipherMode `yaml:"encryptionCipherMode"`
 
 	//New in version 3.2.
 	//

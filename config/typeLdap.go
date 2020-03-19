@@ -10,8 +10,8 @@ type Ldap struct {
 	//This setting can be configured on a running mongod or mongos using setParameter.
 	//
 	//If unset, mongod or mongos cannot use LDAP authentication or authorization.
-	Servers string `yaml:"servers"`
-	Bind    Bind   `yaml:"bind"`
+	Servers []string `yaml:"servers"`
+	Bind    Bind     `yaml:"bind"`
 
 	//Default: tls
 	//
@@ -26,7 +26,7 @@ type Ldap struct {
 	//Set transportSecurity to none to disable TLS/SSL between mongod or mongos and the LDAP server.
 	//
 	//WARNING: Setting transportSecurity to none transmits plaintext information and possibly credentials between mongod or mongos and the LDAP server.
-	transportSecurity string `yaml:"transportSecurity"`
+	TransportSecurity string `yaml:"transportSecurity"`
 
 	//Default: 10000
 	//

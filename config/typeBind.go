@@ -55,7 +55,7 @@ type Bind struct {
 	//simple - mongod or mongos uses simple authentication.
 	//sasl - mongod or mongos uses SASL protocol for authentication
 	//If you specify sasl, you can configure the available SASL mechanisms using security.ldap.bind.saslMechanisms. mongod or mongos defaults to using DIGEST-MD5 mechanism.
-	Method string `yaml:"method"`
+	Method Method `yaml:"method"`
 
 	//Default: DIGEST-MD5
 	//
