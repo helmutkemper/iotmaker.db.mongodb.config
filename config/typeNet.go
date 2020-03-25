@@ -39,7 +39,7 @@ type Net struct {
 	//
 	//NOTE: net.bindIp and net.bindIpAll are mutually exclusive. That is, you can specify one or the other, but not both.
 	//		The command-line option --bind_ip overrides the configuration file setting net.bindIp.
-	BindIp []string `yaml:"bindIp"`
+	BindIp []string `yaml:"bindIp"` //fixme: array to coma list
 
 	//Default: false
 	//
@@ -90,7 +90,8 @@ type Net struct {
 
 	UnixDomainSocket UnixDomainSocket `yaml:"unixDomainSocket"`
 	Tls              Tls              `yaml:"tls"`
-	Compression      Compression      `yaml:"compression"`
+
+	Compression Compression `yaml:"compression"`
 
 	//Default: synchronous
 	//

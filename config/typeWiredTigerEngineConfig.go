@@ -67,4 +67,6 @@ type WiredTigerEngineConfig struct {
 	//
 	//Available starting in MongoDB 4.2.1 (and 4.0.12)
 	MaxCacheOverflowFileSizeGB float64 `yaml:"maxCacheOverflowFileSizeGB"`
+
+	CollectionConfig CollectionConfig `yaml:"collectionConfig"`
 }

@@ -16,5 +16,5 @@ type Sasl struct {
 	ServiceName string `yaml:"serviceName"`
 
 	//The path to the UNIX domain socket file for saslauthd.
-	SaslAuthdSocketPath string `yaml:"saslauthdSocketPath"`
+	SaslauthdSocketPath string `yaml:"saslauthdSocketPath"`
 }

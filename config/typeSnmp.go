@@ -20,5 +20,5 @@ type Snmp struct {
 	//When snmp.master is true, SNMP runs as a master. The option is incompatible with snmp.disabled set to true.
 	//
 	//The snmp.master setting is available only for mongod.
-	master LogicBoolean `yaml:"master"`
+	Master LogicBoolean `yaml:"master"`
 }
