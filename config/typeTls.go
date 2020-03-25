@@ -3,84 +3,157 @@ package iotmaker_db_mongodb_config
 type Tls struct {
 	//New in version 4.2.
 	//
-	//Enables TLS used for all network connections. The argument to the net.tls.mode setting can be one of the following:
+	//Enables TLS used for all network connections. The argument to the net.tls.mode
+	//setting can be one of the following:
 	//
-	//Value	Description
-	//disabled	The server does not use TLS.
-	//allowTLS	Connections between servers do not use TLS. For incoming connections, the server accepts both TLS and non-TLS.
-	//preferTLS	Connections between servers use TLS. For incoming connections, the server accepts both TLS and non-TLS.
-	//requireTLS	The server uses and accepts only TLS encrypted connections.
-	//If --tlsCAFile or tls.CAFile is not specified and you are not using x.509 authentication, the system-wide CA certificate store will be used when connecting to an TLS-enabled server.
+	//    Value      |  Description
+	//    ---------------------------------------------------------------------------------
+	//    disabled   |  The server does not use TLS.
+	//    ---------------------------------------------------------------------------------
+	//    allowTLS   |  Connections between servers do not use TLS. For incoming
+	//               |  connections, the server accepts both TLS and non-TLS.
+	//    ---------------------------------------------------------------------------------
+	//    preferTLS  |  Connections between servers use TLS. For incoming connections, the
+	//               |  server accepts both TLS and non-TLS.
+	//    ---------------------------------------------------------------------------------
+	//    requireTLS |  The server uses and accepts only TLS encrypted connections.
 	//
-	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless using --tlsCertificateSelector.
+	//If --tlsCAFile or tls.CAFile is not specified and you are not using x.509
+	//authentication, the system-wide CA certificate store will be used when connecting to
+	//an TLS-enabled server.
 	//
-	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
+	//If using x.509 authentication, --tlsCAFile or tls.CAFile must be specified unless
+	//using --tlsCertificateSelector.
+	//
+	//For more information about TLS and MongoDB, see Configure mongod and mongos for
+	//TLS/SSL and TLS/SSL Configuration for Clients .
 	Mode Mode `yaml:"mode"`
 
 	//New in version 4.2: The .pem file that contains both the TLS certificate and key.
 	//
-	//Starting with MongoDB 4.0 on macOS or Windows, you can use the net.tls.certificateSelector setting to specify a certificate from the operating system’s secure certificate store instead of a PEM key file. certificateKeyFile and net.tls.certificateSelector are mutually exclusive. You can only specify one.
+	//Starting with MongoDB 4.0 on macOS or Windows, you can use the
+	//net.tls.certificateSelector setting to specify a certificate from the operating
+	//system’s secure certificate store instead of a PEM key file. certificateKeyFile and
+	//net.tls.certificateSelector are mutually exclusive. You can only specify one.
 	//
 	//On Linux/BSD, you must specify net.tls.certificateKeyFile when TLS is enabled.
 	//
-	//On Windows or macOS, you must specify either net.tls.certificateKeyFile or net.tls.certificateSelector when TLS is enabled.
+	//On Windows or macOS, you must specify either net.tls.certificateKeyFile or
+	//net.tls.certificateSelector when TLS is enabled.
 	//
-	//IMPORTANT: For Windows only, MongoDB 4.0 and later do not support encrypted PEM files. The mongod fails to start if it encounters an encrypted PEM file. To securely store and access a certificate for use with TLS on Windows, use net.tls.certificateSelector.
+	//IMPORTANT:
+	//    For Windows only, MongoDB 4.0 and later do not support encrypted PEM files.
+	//    The mongod fails to start if it encounters an encrypted PEM file. To securely
+	//    store and access a certificate for use with TLS on Windows, use
+	//    net.tls.certificateSelector.
 	//
-	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
+	//For more information about TLS and MongoDB, see Configure mongod and mongos for
+	//TLS/SSL and TLS/SSL Configuration for Clients .
 	CertificateKeyFile string `yaml:"certificateKeyFile"`
 
-	//New in version 4.2: The password to de-crypt the certificate-key file (i.e. certificateKeyFile). Use the net.tls.certificateKeyPassword option only if the certificate-key file is encrypted. In all cases, the mongos or mongod will redact the password from all logging and reporting output.
+	//New in version 4.2: The password to de-crypt the certificate-key file
+	//(i.e. certificateKeyFile). Use the net.tls.certificateKeyPassword option only if the
+	//certificate-key file is encrypted. In all cases, the mongos or mongod will redact the
+	//password from all logging and reporting output.
 	//
 	//Starting in MongoDB 4.0:
 	//
-	//On Linux/BSD, if the private key in the PEM file is encrypted and you do not specify the net.tls.certificateKeyFukePassword option, MongoDB will prompt for a passphrase. See TLS/SSL Certificate Passphrase.
-	//On macOS, if the private key in the PEM file is encrypted, you must explicitly specify the net.tls.certificateKeyFilePassword option. Alternatively, you can use a certificate from the secure system store (see net.tls.certificateSelector) instead of a PEM key file or use an unencrypted PEM file.
-	//On Windows, MongoDB does not support encrypted certificates. The mongod fails if it encounters an encrypted PEM file. Use net.tls.certificateSelector instead.
-	//For more information about TLS and MongoDB, see Configure mongod and mongos for TLS/SSL and TLS/SSL Configuration for Clients .
+	//    On Linux/BSD, if the private key in the PEM file is encrypted and you do not
+	//    specify the net.tls.certificateKeyFukePassword option, MongoDB will prompt for a
+	//    passphrase.
+	//    See TLS/SSL Certificate Passphrase.
+	//
+	//    On macOS, if the private key in the PEM file is encrypted, you must explicitly
+	//    specify the net.tls.certificateKeyFilePassword option.
+	//    Alternatively, you can use a certificate from the secure system store
+	//    (see net.tls.certificateSelector) instead of a PEM key file or use an unencrypted
+	//    PEM file.
+	//
+	//    On Windows, MongoDB does not support encrypted certificates.
+	//    The mongod fails if it encounters an encrypted PEM file.
+	//    Use net.tls.certificateSelector instead.
+	//
+	//For more information about TLS and MongoDB, see Configure mongod and mongos for
+	//TLS/SSL and TLS/SSL Configuration for Clients .
 	CertificateKeyFilePassword string `yaml:"certificateKeyFilePassword"`
 
-	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.certificateKeyFile.
+	//New in version 4.2: Available on Windows and macOS as an alternative to
+	//net.tls.certificateKeyFile.
 	//
-	//Specifies a certificate property in order to select a matching certificate from the operating system’s certificate store to use for TLS/SSL.
+	//Specifies a certificate property in order to select a matching certificate from the
+	//operating system’s certificate store to use for TLS/SSL.
 	//
-	//net.tls.certificateKeyFile and net.tls.certificateSelector options are mutually exclusive. You can only specify one.
+	//net.tls.certificateKeyFile and net.tls.certificateSelector options are mutually
+	//exclusive.
+	//    You can only specify one.
 	//
-	//net.tls.certificateSelector accepts an argument of the format <property>=<value> where the property can be one of the following:
+	//net.tls.certificateSelector accepts an argument of the format <property>=<value>
+	//where the property can be one of the following:
 	//
-	//Property	Value type	Description
-	//subject	ASCII string	Subject name or common name on certificate
-	//thumbprint	hex string
-	//A sequence of bytes, expressed as hexadecimal, used to identify a public key by its SHA-1 digest.
+	//    Property   |  Value  |  type    |  Description
+	//    ---------------------------------------------------------------------------------
+	//    subject    |  ASCII  |  string  |  Subject name or common name on certificate
+	//    ---------------------------------------------------------------------------------
+	//    thumbprint |  hex    |  string  |  A sequence of bytes, expressed as hexadecimal,
+	//               |         |          |  used to identify a public  key by its SHA-1
+	//               |         |          |  digest.
 	//
 	//The thumbprint is sometimes referred to as a fingerprint.
 	//
-	//When using the system SSL certificate store, OCSP (Online Certificate Status Protocol) is used to validate the revocation status of certificates.
+	//When using the system SSL certificate store, OCSP (Online Certificate Status
+	//Protocol) is used to validate the revocation status of certificates.
 	//
-	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified TLS certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the TLS certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate
+	//The mongod searches the operating system’s secure certificate store for the CA
+	//certificates required to validate the full certificate chain of the specified TLS
+	//certificate.
+	//Specifically, the secure certificate store must contain the root CA and any
+	//intermediate CA certificates required to build the full certificate chain to the TLS
+	//certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and
+	//intermediate CA certificate
 	//
-	//For example, if the TLS certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the TLS certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
+	//For example, if the TLS certificate was signed with a single root CA certificate, the
+	//secure certificate store must contain that root CA certificate.
+	//If the TLS certificate was signed with an intermediate CA certificate, the secure
+	//certificate store must contain the intermedia CA certificate and the root CA
+	//certificate.
 	//todo:melhorar
 	CertificateSelector string `yaml:"certificateSelector"`
 
-	//New in version 4.2: Available on Windows and macOS as an alternative to net.tls.clusterFile.
+	//New in version 4.2: Available on Windows and macOS as an alternative to
+	//net.tls.clusterFile.
 	//
-	//Specifies a certificate property to select a matching certificate from the operating system’s secure certificate store to use for internal x.509 membership authentication.
+	//Specifies a certificate property to select a matching certificate from the operating
+	//system’s secure certificate store to use for internal x.509 membership
+	//authentication.
 	//
-	//net.tls.clusterFile and net.tls.clusterCertificateSelector options are mutually exclusive. You can only specify one.
+	//net.tls.clusterFile and net.tls.clusterCertificateSelector options are mutually
+	//exclusive.
+	//    You can only specify one.
 	//
-	//net.tls.clusterCertificateSelector accepts an argument of the format <property>=<value> where the property can be one of the following:
+	//net.tls.clusterCertificateSelector accepts an argument of the format
+	//<property>=<value> where the property can be one of the following:
 	//
-	//Property	Value type	Description
-	//subject	ASCII string	Subject name or common name on certificate
-	//thumbprint	hex string
-	//A sequence of bytes, expressed as hexadecimal, used to identify a public key by its SHA-1 digest.
+	//    Property   |  Value  |  type    |  Description
+	//    ---------------------------------------------------------------------------------
+	//    subject    |  ASCII  |  string  |  Subject name or common name on certificate
+	//    ---------------------------------------------------------------------------------
+	//    thumbprint |  hex    |  string  |  A sequence of bytes, expressed as hexadecimal,
+	//               |         |          |  used to identify a public  key by its SHA-1
+	//               |         |          |  digest.
 	//
 	//The thumbprint is sometimes referred to as a fingerprint.
 	//
-	//The mongod searches the operating system’s secure certificate store for the CA certificates required to validate the full certificate chain of the specified cluster certificate. Specifically, the secure certificate store must contain the root CA and any intermediate CA certificates required to build the full certificate chain to the cluster certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the root and intermediate CA certificate.
+	//The mongod searches the operating system’s secure certificate store for the CA
+	//certificates required to validate the full certificate chain of the specified cluster
+	//certificate. Specifically, the secure certificate store must contain the root CA and
+	//any intermediate CA certificates required to build the full certificate chain to the
+	//cluster certificate. Do not use net.tls.CAFile or net.tls.clusterFile to specify the
+	//root and intermediate CA certificate.
 	//
-	//For example, if the cluster certificate was signed with a single root CA certificate, the secure certificate store must contain that root CA certificate. If the cluster certificate was signed with an intermediate CA certificate, the secure certificate store must contain the intermedia CA certificate and the root CA certificate.
+	//For example, if the cluster certificate was signed with a single root CA certificate,
+	//the secure certificate store must contain that root CA certificate. If the cluster
+	//certificate was signed with an intermediate CA certificate, the secure certificate
+	//store must contain the intermedia CA certificate and the root CA certificate.
 	//todo:melhorar
 	ClusterCertificateSelector string `yaml:"clusterCertificateSelector"`
 

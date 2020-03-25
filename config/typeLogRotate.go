@@ -16,7 +16,8 @@ const (
 	//renames the log file.
 	KLogRotateRename LogRotate = iota + 1
 
-	//reopen closes and reopens the log file following the typical Linux/Unix log rotate behavior. Use reopen when using the Linux/Unix logrotate utility to avoid log loss.
+	//reopen closes and reopens the log file following the typical Linux/Unix log rotate
+	//behavior. Use reopen when using the Linux/Unix logrotate utility to avoid log loss.
 	//
 	//If you specify reopen, you must also set systemLog.logAppend to true.
 	KLogRotateReopen
