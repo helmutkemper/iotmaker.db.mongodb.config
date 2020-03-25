@@ -9,7 +9,7 @@ var shardingClusterRoles = [...]string{
 }
 
 func (el ShardingClusterRole) String() string {
-	return shardingClusterRoles[el]
+	return `"` + shardingClusterRoles[el] + `"`
 }
 
 const (

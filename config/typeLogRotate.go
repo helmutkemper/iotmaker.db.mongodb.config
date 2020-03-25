@@ -4,12 +4,12 @@ type LogRotate int
 
 var logRotates = [...]string{
 	"",
-	"rename.",
+	"rename",
 	"reopen",
 }
 
 func (el LogRotate) String() string {
-	return logRotates[el]
+	return `"` + logRotates[el] + `"`
 }
 
 const (

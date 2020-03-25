@@ -10,7 +10,7 @@ var timeStampFormats = [...]string{
 }
 
 func (el TimeStampFormat) String() string {
-	return timeStampFormats[el]
+	return `"` + timeStampFormats[el] + `"`
 }
 
 const (
