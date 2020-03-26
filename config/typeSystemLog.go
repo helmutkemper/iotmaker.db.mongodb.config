@@ -58,7 +58,7 @@ type SystemLog struct {
 	//If you do not specify systemLog.destination, MongoDB sends all log output to standard output.
 	//
 	//WARNING: The syslog daemon generates timestamps when it logs a message, not when MongoDB issues the message. This can lead to misleading timestamps for log entries, especially when the system is under heavy load. We recommend using the file option for production systems to ensure accurate timestamps.
-	Destination string `yaml:"destination"`
+	Destination SystemLogDestination `yaml:"destination"`
 
 	//Default: iso8601-local
 	//
