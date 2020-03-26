@@ -26,7 +26,7 @@ type UnixDomainSocket struct {
 	//--nounixsocket is set
 	//net.bindIp is not set
 	//net.bindIp does not specify localhost or its associated IP address
-	PathPrefix LogicBoolean `yaml:"pathPrefix"`
+	PathPrefix string `yaml:"pathPrefix"`
 
 	//Default: 0700
 	//

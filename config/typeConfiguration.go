@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 //https://docs.mongodb.com/manual/reference/configuration-options/
@@ -150,6 +151,15 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 
 			return errors.New("logical must be -1 for false, 0 for not set and 1 for true")
 
+		case "iotmaker_db_mongodb_config.ComaList":
+
+			if len(field.Interface().(ComaList)) == 0 {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKeyValue(buffer, tagValue, `"`+strings.Join(field.Interface().(ComaList), `, `)+`"`)
+
 		case "string":
 			if field.Interface().(string) == "" {
 				continue
@@ -194,6 +204,24 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 
 			el.writeSpaces(buffer, level)
 			str := field.Interface().(TimeStampFormat).String()
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "iotmaker_db_mongodb_config.FreeState":
+			if field.Interface().(FreeState) == 0 {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := field.Interface().(FreeState).String()
+			el.writeKeyValue(buffer, tagValue, str)
+
+		case "iotmaker_db_mongodb_config.Compressor":
+			if field.Interface().(Compressor) == 0 {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := field.Interface().(Compressor).String()
 			el.writeKeyValue(buffer, tagValue, str)
 
 		case "iotmaker_db_mongodb_config.LogRotate":
@@ -608,6 +636,15 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 				return err
 			}
 
+		case "iotmaker_db_mongodb_config.Mode":
+			if field.Interface().(Mode) == 0 {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			str := field.Interface().(Mode).String()
+			el.writeKeyValue(buffer, tagValue, str)
+
 		case "iotmaker_db_mongodb_config.ServiceExecutor":
 			if field.Interface().(ServiceExecutor) == 0 {
 				continue
@@ -662,7 +699,7 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 			}
 
 			el.writeSpaces(buffer, level)
-			str := field.Interface().(LogRotate).String()
+			str := strconv.FormatInt(int64(field.Interface().(NetPort)), 10)
 			el.writeKeyValue(buffer, tagValue, str)
 
 		case "iotmaker_db_mongodb_config.Monitoring":
@@ -694,6 +731,19 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 		case "iotmaker_db_mongodb_config.JournalLog":
 
 			if reflect.DeepEqual(JournalLog{}, field.Interface().(JournalLog)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.Free":
+
+			if reflect.DeepEqual(Free{}, field.Interface().(Free)) == true {
 				continue
 			}
 

@@ -5,11 +5,12 @@ type FreeState int
 var FreeStates = [...]string{
 	"",
 	"runtime.",
-	"reopen",
+	"on",
+	"off",
 }
 
 func (el FreeState) String() string {
-	return FreeStates[el]
+	return `"` + FreeStates[el] + `"`
 }
 
 const (

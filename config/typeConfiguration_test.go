@@ -74,6 +74,53 @@ func ExampleConfiguration_ToYaml() {
 				},
 			},
 		},
+		ProcessManagement: ProcessManagement{
+			Fork:         FALSE,
+			PidFilePath:  "/etc/init.d",
+			TimeZoneInfo: "/usr/share/zoneinfo",
+		},
+		Cloud: Cloud{
+			Monitoring: Monitoring{
+				Free: Free{
+					State: KFreeStateOn,
+					Tags:  "tags",
+				},
+			},
+		},
+		Net: Net{
+			Port:                   KNetPortMongodOrMongosInstance,
+			BindIp:                 ComaList{"0.0.0.0", "/tmp/mongod.sock"},
+			BindIpAll:              FALSE,
+			MaxIncomingConnections: 65536,
+			WireObjectCheck:        TRUE,
+			Ipv6:                   FALSE,
+			UnixDomainSocket: UnixDomainSocket{
+				Enabled:         FALSE,
+				PathPrefix:      "/tmp",
+				FilePermissions: 0700,
+			},
+			Tls: Tls{
+				Mode:                                KModePreferTLS,
+				CertificateKeyFile:                  "/CertificateKeyFile",
+				CertificateKeyFilePassword:          "******",
+				CertificateSelector:                 "subject=ffffffff",
+				ClusterCertificateSelector:          "subject=ffffffff",
+				ClusterFile:                         "/ClusterFile",
+				ClusterPassword:                     "******",
+				CAFile:                              "/CAFile",
+				ClusterCAFile:                       "/ClusterCAFile",
+				CRLFile:                             "/CRLFile",
+				AllowConnectionsWithoutCertificates: TRUE,
+				AllowInvalidCertificates:            FALSE,
+				AllowInvalidHostNames:               TRUE,
+				DisabledProtocols:                   nil,
+				FIPSMode:                            FALSE,
+			},
+			Compression: Compression{
+				Compressors: KCompressorZStd,
+			},
+			ServiceExecutor: KServiceExecutorSynchronous,
+		},
 	}
 
 	err, yml := conf.ToYaml(0)

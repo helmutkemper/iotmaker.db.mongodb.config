@@ -67,7 +67,7 @@ type Net struct {
 	//
 	//		The command-line option --bind_ip overrides the configuration file setting
 	//		net.bindIp.
-	BindIp []string `yaml:"bindIp"` //fixme: array to coma list
+	BindIp ComaList `yaml:"bindIp"` //fixme: array to coma list
 
 	//Default: false
 	//
