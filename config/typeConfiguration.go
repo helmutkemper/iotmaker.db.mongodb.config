@@ -26,13 +26,14 @@ type Configuration struct {
 	//
 	//To set parameters in the YAML configuration file, use the following format:
 	//
-	//setParameter:
-	//   <parameter1>: <value1>
-	//   <parameter2>: <value2>
+	//    setParameter:
+	//       <parameter1>: <value1>
+	//       <parameter2>: <value2>
+	//
 	//For example, to specify the enableLocalhostAuthBypass in the configuration file:
 	//
-	//setParameter:
-	//   enableLocalhostAuthBypass: false
+	//    setParameter:
+	//       enableLocalhostAuthBypass: false
 	SetParameter interface{} `yaml:"setParameter"` //todo: fazer
 
 	//Default: 30
