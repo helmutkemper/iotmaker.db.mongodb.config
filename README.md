@@ -18,20 +18,20 @@ en: This module is in alpha version and writes files **YAML** to configurate Mon
 
 file: **./mongod.conf**
 ```yaml
-	processManagement:
-	  fork: false
-	net:
-	  port: 27017
-	  bindIp:
-	    - "127.0.0.1"
-	    - "0.0.0.0"
-	setParameter:
-	  enableLocalhostAuthBypass: true
-	storage:
-	  journal:
-	    enabled: true
-	systemLog:
-	  path: "/var/log/mongodb/mongod.log"
-	  logAppend: true
-	  destination: "file"
+processManagement:
+  fork: false
+net:
+  port: 27017
+  bindIp:
+    - "127.0.0.1"
+    - "0.0.0.0"
+setParameter:
+  enableLocalhostAuthBypass: true
+storage:
+  journal:
+    enabled: true
+systemLog:
+  path: "/var/log/mongodb/mongod.log"
+  logAppend: true
+  destination: "file"
 ```
