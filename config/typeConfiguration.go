@@ -82,15 +82,20 @@ func (el *Configuration) writeSpaces(buffer *bytes.Buffer, spaces int) {
 
 func (el *Configuration) writeKey(buffer *bytes.Buffer, key string) {
 	buffer.WriteString(key)
-	buffer.WriteString(": ")
-	buffer.WriteString("\r\n")
+	buffer.WriteString(":")
+	buffer.WriteString("\n")
+}
+
+func (el *Configuration) writeValue(buffer *bytes.Buffer, key string) {
+	buffer.WriteString(key)
+	buffer.WriteString("\n")
 }
 
 func (el *Configuration) writeKeyValue(buffer *bytes.Buffer, key, value string) {
 	buffer.WriteString(key)
 	buffer.WriteString(": ")
 	buffer.WriteString(value)
-	buffer.WriteString("\r\n")
+	buffer.WriteString("\n")
 }
 
 func (el *Configuration) ToYaml(level int) (error, []byte) {
@@ -114,6 +119,38 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 		}
 
 		switch field.Type().String() {
+
+		case "interface {}":
+
+			switch tagValue {
+			case "setParameter":
+
+				switch converted := el.SetParameter.(type) {
+				case EnableLocalhostAuthBypass:
+					if converted == 0 {
+						continue
+					}
+
+					el.writeSpaces(buffer, level)
+					el.writeKey(buffer, tagValue)
+
+					if converted == -1 {
+						el.writeSpaces(buffer, level+2)
+						el.writeKeyValue(buffer, "enableLocalhostAuthBypass", "false")
+						continue
+					}
+
+					if converted == 1 {
+						el.writeSpaces(buffer, level+2)
+						el.writeKeyValue(buffer, "enableLocalhostAuthBypass", "true")
+						continue
+					}
+				}
+
+			default:
+				fmt.Printf("todo: %v\n\n\n", tagValue)
+			}
+
 		case "iotmaker_db_mongodb_config.Verbosity":
 
 			if field.Interface().(Verbosity) == 0 {
@@ -158,8 +195,18 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 				continue
 			}
 
+			if len(field.Interface().(ComaList)) == 1 {
+				el.writeSpaces(buffer, level)
+				el.writeKeyValue(buffer, tagValue, `"`+strings.Join(field.Interface().(ComaList), `, `)+`"`)
+				continue
+			}
+
 			el.writeSpaces(buffer, level)
-			el.writeKeyValue(buffer, tagValue, `"`+strings.Join(field.Interface().(ComaList), `, `)+`"`)
+			el.writeKey(buffer, tagValue)
+			for _, value := range field.Interface().(ComaList) {
+				el.writeSpaces(buffer, level+2)
+				el.writeValue(buffer, `- "`+value+`"`)
+			}
 
 		case "string":
 			if field.Interface().(string) == "" {
@@ -233,6 +280,45 @@ func (el *Configuration) ToText(level int, element reflect.Value, buffer *bytes.
 			el.writeSpaces(buffer, level)
 			str := field.Interface().(LogRotate).String()
 			el.writeKeyValue(buffer, tagValue, str)
+
+		case "iotmaker_db_mongodb_config.Journal":
+
+			if reflect.DeepEqual(Journal{}, field.Interface().(Journal)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.WiredTiger":
+
+			if reflect.DeepEqual(WiredTiger{}, field.Interface().(WiredTiger)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
+
+		case "iotmaker_db_mongodb_config.InMemory":
+
+			if reflect.DeepEqual(InMemory{}, field.Interface().(InMemory)) == true {
+				continue
+			}
+
+			el.writeSpaces(buffer, level)
+			el.writeKey(buffer, tagValue)
+			err := el.ToText(level+2, field, buffer)
+			if err != nil {
+				return err
+			}
 
 		case "iotmaker_db_mongodb_config.Component":
 

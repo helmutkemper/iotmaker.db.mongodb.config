@@ -1,6 +1,6 @@
-package iotmaker_db_mongodb_config
+package factoryMongoDBConfigBindId
 
-import iotmaker_db_mongodb_config "github.com/helmut.kemper/iotmaker.db.mongodb.config/config"
+import iotmaker_db_mongodb_config "github.com/helmutkemper/iotmaker.db.mongodb.config/config"
 
 //Default: localhost
 //
@@ -35,8 +35,4 @@ import iotmaker_db_mongodb_config "github.com/helmut.kemper/iotmaker.db.mongodb.
 //The command-line option --bind_ip overrides the configuration file setting net.bindIp.
 func SetBindIpList(configuration *iotmaker_db_mongodb_config.Configuration, list ...string) {
 	configuration.Net.BindIp = list
-}
-
-func SetBindAll(configuration *iotmaker_db_mongodb_config.Configuration, value bool) {
-	configuration.Net.BindIpAll = value
 }

@@ -121,6 +121,21 @@ func ExampleConfiguration_ToYaml() {
 			},
 			ServiceExecutor: KServiceExecutorSynchronous,
 		},
+		Security: Security{
+			KeyFile:                  ComaList{"/dir/File_1", "/dir/File_2"},
+			ClusterAuthMode:          KClusterAuthModeKeyFile,
+			Authorization:            KAuthorizationEnabled,
+			TransitionToAuth:         TRUE,
+			JavascriptEnabled:        TRUE,
+			RedactClientLogData:      TRUE,
+			ClusterIpSourceWhitelist: ComaList{"192.0.2.0/24", "127.0.0.1", "::1"},
+			EnableEncryption:         FALSE,
+			EncryptionCipherMode:     KEncryptionCipherModeAES256CBC,
+			EncryptionKeyFile:        "",
+			Kmip:                     Kmip{},
+			Sasl:                     Sasl{},
+			Ldap:                     Ldap{},
+		},
 	}
 
 	err, yml := conf.ToYaml(0)

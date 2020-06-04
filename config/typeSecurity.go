@@ -59,7 +59,7 @@ type Security struct {
 	//See Role-Based Access Control for more information.
 	//
 	//The security.authorization setting is available only for mongod.
-	Authorization string `yaml:"authorization"`
+	Authorization Authorization `yaml:"authorization"`
 
 	//Default: false
 	//
@@ -159,7 +159,7 @@ type Security struct {
 	//          clientCertificatePassword: <string>
 	//          clientCertificateSelector: <string>
 	//          serverCAFile: <string>
-	ClusterIpSourceWhitelist []string `yaml:"clusterIpSourceWhitelist"`
+	ClusterIpSourceWhitelist ComaList `yaml:"clusterIpSourceWhitelist"`
 
 	//Default: false
 	//
@@ -190,7 +190,7 @@ type Security struct {
 	//ENTERPRISE FEATURE
 	//
 	//Available in MongoDB Enterprise only.
-	EncryptionCipherMode string `yaml:"encryptionCipherMode"`
+	EncryptionCipherMode EncryptionCipherMode `yaml:"encryptionCipherMode"`
 
 	//New in version 3.2.
 	//

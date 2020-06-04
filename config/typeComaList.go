@@ -5,5 +5,5 @@ import "strings"
 type ComaList []string
 
 func (el *ComaList) String() string {
-	return `"` + strings.Join(*el, `", "`) + `"`
+	return `"` + strings.Join(*el, `","`) + `"`
 }
