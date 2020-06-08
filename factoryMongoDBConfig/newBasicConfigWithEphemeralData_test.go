@@ -7,7 +7,7 @@ import (
 func ExampleNewBasicConfig() {
 	var err error
 	var file []byte
-	var c = NewBasicConfig()
+	var c = NewBasicConfigWithEphemeralData()
 	err, file = c.ToYaml(0)
 	if err != nil {
 		panic(err)

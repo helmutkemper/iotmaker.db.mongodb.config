@@ -8,7 +8,7 @@ en: This module is in alpha version and writes files **YAML** to configurate Mon
 ```golang
     var err error
 	var file []byte
-	var c = factoryMongoDBConfig.NewBasicConfig()
+	var c = factoryMongoDBConfig.NewBasicConfigWithEphemeralData()
 	err, file = c.ToYaml(0)
 	if err != nil {
 		panic(err)
